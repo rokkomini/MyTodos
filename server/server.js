@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
 
+const dotenv = require("dotenv").config();
+
 const cors = require("cors");
 const mongoose = require("mongoose");
 
@@ -13,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 // simple route
 
 //Routes
-app.use("/", require("./routes/user.js"));
+app.use("/", require("./routes/todo.js"));
 app.use("/auth", require("./routes/auth.js"));
 
 // set port, listen for requests
