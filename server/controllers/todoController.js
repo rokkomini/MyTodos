@@ -11,10 +11,8 @@ const getTodo = asyncHandler(async (req, res) => {
   const todoEntries = await Todo.find({ user: req.user.id })
     .populate("user")
     .sort({ date: -1 });
-  res
-    .status(200)
-    .json(todoEntries)
- 
+  res.status(200).json(todoEntries);
+
   //res.json({ message: "Get todos" });
 });
 
@@ -24,7 +22,7 @@ const getTodo = asyncHandler(async (req, res) => {
 
 const postTodo = asyncHandler(async (req, res) => {
   const { text } = req.body;
-  const user = req.user;
+  const user = req.user.id;
   console.log("user:", user);
   let todo = new Todo({
     user: user,

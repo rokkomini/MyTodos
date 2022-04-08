@@ -9,7 +9,7 @@ const {
 } = require("../controllers/todoController");
 const router = express.Router();
 const { getUser } = require("../controllers/userController");
-const { protect, verifyJWT } = require("../middleware/authMiddleware");
+const { verifyJWT } = require("../middleware/authMiddleware");
 
 //router.route('/dashboard').get(protect, getTodo).post('/dashboard')(protect, postTodo)
 

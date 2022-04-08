@@ -1,4 +1,5 @@
 import React from 'react'
+import { AiOutlineDelete } from "react-icons/ai";
 
 export default function ListedTodos({ text, postDate }) {
   return (
@@ -12,6 +13,7 @@ export default function ListedTodos({ text, postDate }) {
               <div className='d-flex justify-content-between' >
                 <span className="badge bg-primary rounded-pill">{postDate}</span>
                 <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" ></input>
+                <AiOutlineDelete />
               </div>
             </li>
           </ul>
