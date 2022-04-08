@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const asyncHandler = require("express-async-handler");
 const { User } = require("../models/User");
+const { protect } = require("../middleware/authMiddleware");
 
 // @desc   Register new user
 // @route  POST /auth/register/
@@ -53,11 +54,15 @@ const loginUser = asyncHandler(async (req, res) => {
   // Check for username
   const user = await User.login(username, password);
   if (user) {
-    res.json({
-      _id: user._id,
-      username: user.username,
-      token: generateToken(user._id),
-    });
+    console.log('usercontroller', user)
+    const userId = user._id.toString();
+    console.log('usercontroller id', userId)
+    const token = jwt.sign(
+      { userId, username: user.username },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h", subject: userId }
+    );
+    res.json({ message: "Success", token: "Bearer " + token });
   } else {
     res.status(400);
     throw new Error("Invalid credentials");
@@ -68,14 +73,19 @@ const loginUser = asyncHandler(async (req, res) => {
 // @route  GET /auth/dashboard/
 // @access Private
 
-const getUser = asyncHandler(async (req, res) => {
+const getUser = async (req, res) => {
+  if (protect) {
+  res.json({ isLoggedIn: true, username: req.user.username });
+}
+};
+/* const getUser = asyncHandler(async (req, res) => {
   const { _id, username } = await User.findById(req.user.id);
   res.status(200).json({
     id: _id,
     username,
   });
   //res.json({ message: "User data display" });
-});
+}); */
 
 //Generate JWTtoken
 

@@ -1,104 +1,69 @@
-import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Form, FormDiv, Input } from '../components/styles/FormStyle'
-import { useHistory } from 'react-router-dom'
+import { Form, Input } from '../components/styles/FormStyle'
+
+import { HiHome } from "react-icons/hi";
+
 
 
 export default function StartPage() {
+
     let navigate = useNavigate()
+
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const API_LOGIN = 'http://localhost:5050/auth/login/';
-    const payload = { username, password }
+
 
     function handleLogin(e) {
         e.preventDefault()
+        const payload = { username, password }
 
         fetch(API_LOGIN, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+
             },
             body: JSON.stringify(payload)
         })
             .then(res => res.json())
             .then(data => {
                 const token = data.token
-                localStorage.setItem('user', token)
+                localStorage.setItem('token', token)
+                console.log('token in startpage', token)
                 navigate('/dashboard')
             })
     }
 
-    /* const History = useHistory()
-
-    
-    function handleLogin() {
-        const payload = ({{ username, password }
-    }
-    axios.post(API_LOGIN, payload)
-        .then(res => {
-            alert(res.data.message)
-            setLoginUser(res.data.user)
-            History.push("/")
+    useEffect(() => {
+        fetch('http://localhost:5050/auth/user', {
+            headers:
+                { 'x-access-token': localStorage.getItem('token') }
         })
-}
-
-const Login = ({ setLoginUser }) => {
-    const history = useHistory()
-    const [user, setUser] = useState({
-        name: "",
-        password: ""
-    })
-    const handleChange = e => {
-        const { name, value } = e.target
-        setUser({
-            ...user,//spread operator 
-            [name]: value
-        })
-    }
-
-    const login = () => {
-        axios.post("http://localhost:6969/Login", user)
-            .then(res => {
-                alert(res.data.message)
-                setLoginUser(res.data.user)
-                history.push("/")
-            })
-    }
- */
-
-    /* async function handleLogin(e) {
-        e.preventDefault()
-           const payload = {username, password}
-          await fetch(API_LOGIN, {
-              method: 'POST',
-              headers: {'Content-Type': 'application/json'},
-              body: JSON.stringify(payload)
-          }) 
-        axios.post(API_LOGIN, { username, password })
-            .then((response) => {
-                if (response.data.token) {
-                    console.log(response.data.token)
-                    localStorage.setItem('user', JSON.stringify(response.data.token))
-                    navigate('/dashboard')
-                }
-                return response.data
-            })
-    } */
+            .then(res => res.json())
+            .then(data => console.log(data))
+            .then(data => data.isLoggedIn ? navigate('/dashboard') : null)
+    }, [])
 
     return (
         <div>
+
             <h1>Startpage</h1>
             <h2>Welcome to sign in</h2>
-            <FormDiv>
-                <Form onSubmit={handleLogin}>
-                    <Input type="text" placeholder='username' onChange={e => setUsername(e.target.value)} />
-                    <Input type="password" placeholder='password' onChange={e => setPassword(e.target.value)} />
-                    <Input type="submit" value='Sign in' />
-                    <Link to='/register'>Not a member? Click to sign up!</Link>
-                </Form>
-            </FormDiv>
+            <div className="col-md-6 m-auto">
+                <div className="card card-body">
+                    <h1 className="text-center mb-3">
+                        <HiHome /> <br />  Sign in
+                    </h1>
+                    <Form onSubmit={event => handleLogin(event)}>
+                        <Input type="text" placeholder='username' onChange={e => setUsername(e.target.value)} />
+                        <Input type="password" placeholder='password' onChange={e => setPassword(e.target.value)} />
+                        <Input type="submit" value='Sign in' />
+                        <Link to='/register'>Not a member? Click to sign up!</Link>
+                    </Form>
+                </div>
+            </div>
 
         </div>
     )

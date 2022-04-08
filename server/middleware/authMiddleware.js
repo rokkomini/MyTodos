@@ -2,34 +2,26 @@ const jwt = require("jsonwebtoken");
 const asyncHandler = require("express-async-handler");
 const { User } = require("../models/User");
 
-const protect = asyncHandler(async (req, res, next) => {
-  let token;
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
-  ) {
-    try {
-      //Get token from header
-      token = req.headers.authorization.split(" ")[1];
-
-      //verify token
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-      //Get user from token
-
-      req.user = await User.findById(decoded.id).select("-password");
-
+const verifyJWT = asyncHandler(async (req, res, next) => {
+  const token = req.headers["x-access-token"]?.split(" ")[1];
+  //console.log(req.headers["x-access-token"])
+  if (token) {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+      if (err)
+        return res.json({
+          isLoggedIn: false,
+          message: "Failed to authenticate",
+        });
+      req.user = {};
+      req.user.id = decoded.userId;
+      req.user.username = decoded.username;
       next();
-    } catch (error) {
-      console.log(error);
-      res.status(401);
-      throw new Error("Not authorized");
-    }
-  }
-  if (!token) {
-    res.status(401);
-    throw new Error("Not authorized, no token");
+    });
+  } else {
+    res
+      .status(401)
+      .json({ message: "Incorrect token", isLoggedIn: false });
   }
 });
 
-module.exports = { protect };
+module.exports = { verifyJWT };

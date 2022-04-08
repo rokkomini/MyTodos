@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Form, FormDiv, Input } from '../components/styles/FormStyle'
-
+import { FaUserPlus } from "react-icons/fa";
 
 
 export default function RegisterPage() {
@@ -42,14 +42,19 @@ export default function RegisterPage() {
     <div>
       <h1>Register page</h1>
       <h2>Welcome to register a new account!</h2>
-      <FormDiv>
-        <Form onSubmit={handleRegister}>
-          <Input type="text" placeholder='username' value={user.username} onChange={(e) => updateForm({ username: e.target.value })} />
-          <Input type="password" placeholder='password' value={user.password} onChange={(e) => updateForm({ password: e.target.value })} />
-          <Input type="submit" value='Register' />
-          <Link to='/'>Already a member? Click to sign in!</Link>
-        </Form>
-      </FormDiv>
+      <div className="col-md-6 m-auto">
+        <div className="card card-body">
+          <h1 className="text-center mb-3">
+            <FaUserPlus /> <br />  Register
+          </h1>
+          <Form onSubmit={handleRegister}>
+            <Input type="text" placeholder='username' value={user.username} onChange={(e) => updateForm({ username: e.target.value })} />
+            <Input type="password" placeholder='password' value={user.password} onChange={(e) => updateForm({ password: e.target.value })} />
+            <Input type="submit" value='Register' />
+            <Link to='/'>Already a member? Click to sign in!</Link>
+          </Form>
+        </div>
+      </div>
     </div>
   )
 }

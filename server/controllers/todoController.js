@@ -14,9 +14,7 @@ const getTodo = asyncHandler(async (req, res) => {
   res
     .status(200)
     .json(todoEntries)
-    .catch((err) =>
-      res.status(404).json({ message: "Todo not found", error: err.message })
-    );
+ 
   //res.json({ message: "Get todos" });
 });
 

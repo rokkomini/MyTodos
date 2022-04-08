@@ -5,10 +5,15 @@ const router = express.Router();
 const {
   registerUser,
   loginUser,
+  getUser,
 } = require("../controllers/userController");
+const { verifyJWT } = require("../middleware/authMiddleware");
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 
+router.get("/user", verifyJWT, (req, res) => {
+  res.json({ isLoggedIn: true, username: req.user.username });
+});
 
 module.exports = router;

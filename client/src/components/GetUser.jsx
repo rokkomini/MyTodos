@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../components/styles/Navbar'
-import axios from 'axios'
 
 export default function GetUser() {
     const [user, setUser] = useState('')
-    const API_URL = 'http://localhost:5050/auth/dashboard/'
+  /*   const API_URL = 'http://localhost:5050/auth/dashboard/me'
 
     useEffect(() => {
         const token = localStorage.getItem('user')
@@ -20,37 +19,28 @@ export default function GetUser() {
             .then(data => {
                 setUser(data)
             })
+    }, []) */
+
+    useEffect(() => {
+        fetch('http://localhost:5050/auth/user', {
+            method: 'GET',
+            headers:
+                { 'x-access-token': localStorage.getItem('token')}
+        })
+            .then(res => res.json())
+            .then(data => data.isLoggedIn ? setUser(data) : null)
     }, [])
 
-    /*  function authHeader() {
-         const user = JSON.parse(localStorage.getItem('user'));
-         if (user && user.accessToken) {
-           return { Authorization: 'Bearer ' + user.token };
-         } else {
-           return {};
-         }
-       }
-      
-     useEffect(() => {
-        const token = localStorage.getItem('user')
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': `${token}`
-        }
-        axios.get(API_URL, { headers: headers })
-            .then((response) => {setUser(response.data)})
-            .then(console.log(user))
-    }, []) 
-
- /*    useEffect(() => {
-        const currentUser = JSON.parse(localStorage.getItem("user"));
-    }, []) */
 
     return (
         <div>
             Get User
+            {`Console log user: ${console.log(user)}`}
             {user && (
-                <Navbar text={user.username} />
+                <Navbar username={user.username} />
+            )}
+            {!user && (
+                <Navbar username={'Unknown user'}/>
             )}
 
         </div>

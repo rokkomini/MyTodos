@@ -19,10 +19,6 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-/* const createUser = async (user) => {
-  return await this.User.create(user)
-} */
-
 userSchema.statics.login = async function (username, password) {
   const user = await this.findOne({ username });
   if (user && (await bcrypt.compare(password, user.password))) {
