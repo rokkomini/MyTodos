@@ -44,18 +44,65 @@ const postTodo = asyncHandler(async (req, res) => {
   //res.json({ message: "Get todos" });
 });
 
-// @route PUT api/todo
+// @route PUT /dashboard/:todoId
 // @description update todo
 // @access restricted
 const updateTodo = asyncHandler(async (req, res) => {
-  res.json({ message: "Update todos" });
+  const todo = await Todo.findById(req.params.id);
+  //console.log('update todo', todo)
+
+  if (!todo) {
+    res.status(400);
+    throw new Error("Todo not found");
+  }
+
+  // Check for user
+  if (!req.user) {
+    res.status(401);
+    throw new Error("User not found");
+  }
+
+  // Make sure the logged in user matches the goal user
+  if (todo.user.toString() !== req.user.id) {
+    res.status(401);
+    throw new Error("User not authorized");
+  }
+
+  if (todo.status === true){
+   return todo.status = false
+  } else {
+    todo.status = true
+  }
+
+const updatedTodo = await todo.findByIdAndUpdate(req.params.id, {
+    new: true,
+  });
+
+  res.status(200).json({ message: "Todo" });
 });
 
 // @route DELETE api/todo
 // @description delete a todo
 // @access restricted
 const deleteTodo = asyncHandler(async (req, res) => {
-  res.json({ message: "Delete todos" });
+  const todo = await Todo.findById(req.params.id);
+
+  if (!todo) {
+    res.status(401);
+    throw new Error("Todo not found");
+  }
+  if (!req.user) {
+    res.status(401);
+    throw new Error("User not found");
+  }
+
+  if (todo.user.toString() !== req.user.id) {
+    res.status(401);
+    throw new Error("User not authorized");
+  }
+
+  await todo.remove();
+  res.status(200).json({ id: req.params.id });
 });
 
 module.exports = { postTodo, getTodo, updateTodo, deleteTodo };

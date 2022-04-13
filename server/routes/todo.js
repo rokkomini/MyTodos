@@ -11,14 +11,13 @@ const router = express.Router();
 const { getUser } = require("../controllers/userController");
 const { verifyJWT } = require("../middleware/authMiddleware");
 
-//router.route('/dashboard').get(protect, getTodo).post('/dashboard')(protect, postTodo)
 
 router.get("/dashboard/", verifyJWT, getTodo);
 
 router.post("/dashboard/", verifyJWT, postTodo);
 
-router.put("/dashboard/", updateTodo);
+router.patch("/dashboard/:id", verifyJWT, updateTodo);
 
-router.delete("/dashboard", deleteTodo);
+router.delete("/dashboard/:id", verifyJWT, deleteTodo);
 
 module.exports = router;

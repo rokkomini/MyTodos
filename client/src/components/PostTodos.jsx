@@ -34,27 +34,6 @@ export default function PostTodos() {
         console.log(todo)
     }
 
-    /*  useEffect(() => {
-         fetch('http://localhost:5050/dashboard', {
-             headers:
-                 { 'x-access-token': localStorage.getItem('token') }
-         })
-             .then(res => res.json())
-             .then(data => console.log(data))
-             .then(data => data.isLoggedIn ? setTodo(data.todo) : null)
-     }, [])
-
-    function clearInput() {
-        setTodo('')
-    }
- 
-    function submitTodo(e) {
-        e.preventDefault()
-        postTodo()
-        clearInput()
-
-    } */
-
     return (
         <div>
 
