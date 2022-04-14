@@ -61,30 +61,29 @@ export default function GetTodos({ id }) {
             .then((res) => res.json())
             .then(data => fetchData())
     }
-/* 
-    function checkboxStatus() {
-        if (todos.finished === false) {
-            return null
-        } else {
-            return checked
-        }
-    }  */
+    /* 
+        function checkboxStatus() {
+            if (todos.finished === false) {
+                return null
+            } else {
+                return checked
+            }
+        }  */
 
     return (
         <div>
             {todos.length > 0 ? (
-                todos && todos.map(todo => {
-                    return (
-                        <>
-                            <ListedTodos id={todo._id} todo={todo.text} date={todo.createdAt} onDelete={handleOnDelete} onToggle={toggleStatus} status={todo.finished ? true : false}/>
-                            {/*  <p>Todo status: {todo.finished ? 'Finished' : 'Not finished'}</p> */}
-                        </>
-                    )
-                })
+                todos && todos.filter(todo => todo.finished === false).map(activeTodo => (
+                    <>
+                        <ListedTodos id={activeTodo._id} todo={activeTodo.text} date={activeTodo.createdAt} onDelete={handleOnDelete} onToggle={toggleStatus} status={activeTodo.finished ? true : false} />
+                        {/*  <p>Todo status: {todo.finished ? 'Finished' : 'Not finished'}</p> */}
+                    </>
+                ))
             ) : (
                 <p>No todos to show</p>
             )}
-            <button className="btn btn-outline-primary">Show finished todos</button>
+            <br />
+            <div className='d-flex justify-content-center'><button className="btn btn-outline-primary">Show finished todos</button></div>
         </div >
     )
 }
