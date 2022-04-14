@@ -27,7 +27,7 @@ const postTodo = asyncHandler(async (req, res) => {
   let todo = new Todo({
     user: user,
     text: text,
-    status: true,
+    finished: false,
   });
   await todo
     .save()
@@ -49,7 +49,7 @@ const postTodo = asyncHandler(async (req, res) => {
 // @access restricted
 const updateTodo = asyncHandler(async (req, res) => {
   const todo = await Todo.findById(req.params.id);
-  //console.log('update todo', todo)
+  console.log('update todo', todo)
 
   if (!todo) {
     res.status(400);
@@ -68,15 +68,19 @@ const updateTodo = asyncHandler(async (req, res) => {
     throw new Error("User not authorized");
   }
 
-  if (todo.status === true){
-   return todo.status = false
+  if(todo.finished === false) {
+    await Todo.findByIdAndUpdate(req.params.id, {
+      finished: true
+    });
   } else {
-    todo.status = true
+    await Todo.findByIdAndUpdate(req.params.id, {
+      finished: false
+    });
   }
 
-const updatedTodo = await todo.findByIdAndUpdate(req.params.id, {
-    new: true,
-  });
+/* const updatedTodo = await Todo.findByIdAndUpdate(req.params.id, {
+    finished: true
+  }); */
 
   res.status(200).json({ message: "Todo" });
 });

@@ -4,7 +4,7 @@ export default function PostTodos() {
     const [todo, setTodo] = useState({
         user: '',
         text: '',
-        status: true,
+        finished: false,
     })
     const API_URL = 'http://localhost:5050/dashboard/'
 
@@ -40,7 +40,7 @@ export default function PostTodos() {
             <label>Add a to do</label>
             <form >
                 <div className="input-group">
-                    <textarea name='text' id='text' className="form-control" aria-label="With textarea" onChange={(e) => updateTodo({ text: e.target.value })}></textarea>
+                    <textarea name='text' id='text' className="form-control" aria-label="With textarea" placeholder='Write your todo' onChange={(e) => updateTodo({ text: e.target.value })}></textarea>
                     <button onClick={postTodo} className="btn btn-outline-primary">Add todo</button>
                 </div>
             </form>

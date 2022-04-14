@@ -9,24 +9,6 @@ import { useParams } from 'react-router-dom'
 
 export default function Dashboard() {
     const params = useParams()
-    /* const [todos, setTodos] = useState(null)
-
-    useEffect(() => {
-        fetchData()
-    }, [])
-
-    function fetchData() {
-        const API_URL = 'http://localhost:5050/dashboard/'
-        const headers = {
-            'x-access-token': localStorage.getItem('token')
-        }
-        fetch(API_URL, {
-            method: 'GET',
-            headers: headers,
-        })
-            .then(res => res.json())
-            .then(data => setTodos(data.results))
-    } */
 
     return (
         <div>

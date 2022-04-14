@@ -7,9 +7,10 @@ import ListedTodos from './ListedTodos';
 import { useNavigate, useParams } from 'react-router-dom';
 
 
-export default function GetTodos({id}) {
+export default function GetTodos({ id }) {
     const [todos, setTodos] = useState('')
-    
+    const [status, setStatus] = useState(true)
+
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -58,19 +59,32 @@ export default function GetTodos({id}) {
             method: 'PATCH',
         })
             .then((res) => res.json())
-            .then(data => console.log('toggle', data.status))
+            .then(data => fetchData())
     }
+/* 
+    function checkboxStatus() {
+        if (todos.finished === false) {
+            return null
+        } else {
+            return checked
+        }
+    }  */
 
     return (
         <div>
-            {todos && todos.map(todo => {
-                return (
-                    <>
-                        <ListedTodos id={todo._id} todo={todo.text} date={todo.createdAt} onDelete={handleOnDelete} onToggle={toggleStatus} />
-                        <p>{todo._id}</p>
-                    </>
-                )
-            })}
+            {todos.length > 0 ? (
+                todos && todos.map(todo => {
+                    return (
+                        <>
+                            <ListedTodos id={todo._id} todo={todo.text} date={todo.createdAt} onDelete={handleOnDelete} onToggle={toggleStatus} status={todo.finished ? true : false}/>
+                            {/*  <p>Todo status: {todo.finished ? 'Finished' : 'Not finished'}</p> */}
+                        </>
+                    )
+                })
+            ) : (
+                <p>No todos to show</p>
+            )}
+            <button className="btn btn-outline-primary">Show finished todos</button>
         </div >
     )
 }
