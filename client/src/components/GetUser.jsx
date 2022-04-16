@@ -3,23 +3,6 @@ import Navbar from '../components/styles/Navbar'
 
 export default function GetUser() {
     const [user, setUser] = useState('')
-  /*   const API_URL = 'http://localhost:5050/auth/dashboard/me'
-
-    useEffect(() => {
-        const token = localStorage.getItem('user')
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        }
-        fetch(API_URL, {
-            method: 'GET',
-            headers: headers,
-        })
-            .then(res => res.json())
-            .then(data => {
-                setUser(data)
-            })
-    }, []) */
 
     useEffect(() => {
         fetch('http://localhost:5050/auth/user', {
@@ -34,8 +17,6 @@ export default function GetUser() {
 
     return (
         <div>
-            Get User
-            {`Console log user: ${console.log(user)}`}
             {user && (
                 <Navbar username={user.username} />
             )}

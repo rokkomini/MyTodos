@@ -37,7 +37,7 @@ export default function PostTodos() {
     return (
         <div>
 
-            <label>Add a to do</label>
+            <h2>What do you need to do?</h2>
             <form >
                 <div className="input-group">
                     <textarea name='text' id='text' className="form-control" aria-label="With textarea" placeholder='Write your todo' onChange={(e) => updateTodo({ text: e.target.value })}></textarea>

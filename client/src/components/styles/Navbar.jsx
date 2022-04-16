@@ -2,20 +2,25 @@ import React from 'react'
 
 export default function navbar({ username }) {
 
-    async function handleLogout(){
+    async function handleLogout() {
         localStorage.removeItem('token')
     }
     return (
         <div>
-            <nav className="navbar navbar-light bg-light">
+            <nav className="navbar navbar-dark bg-primary">
                 <div className="container-fluid">
-                    <h1>{username}'s Todos</h1>
+                    <h1 className="navbar-brand">Welcome {username}</h1>
                     <form className="d-flex" onSubmit={handleLogout}>
-                        <a href="/" className="btn btn-secondary my-2 my-sm-0">Logout</a>
+                        <ul className="navbar-nav me-auto">
+                            <li >
+                                <a className="nav-link" href="/">Logout
+                                </a>
+                            </li>
+                        </ul>
                     </form>
                 </div>
             </nav>
-
         </div>
     )
 }
+

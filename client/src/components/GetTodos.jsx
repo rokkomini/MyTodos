@@ -74,7 +74,7 @@ export default function GetTodos({ id }) {
         <div>
             {display ? (
                 <div>
-                    Unfinished todos
+                    <h3>Unfinished todos</h3>
                     {todos.length > 0 ? (
                         todos && todos.filter(todo => todo.finished === false).map(activeTodo => (
                             <>
@@ -87,7 +87,7 @@ export default function GetTodos({ id }) {
                     )}
                 </div>) : (
                 <div>
-                    Finished Todos
+                    <h3>Finished Todos</h3>
                     {todos.length > 0 ? (
                         todos && todos.filter(todo => todo.finished === true).map(activeTodo => (
                             <>
