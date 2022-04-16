@@ -65,8 +65,9 @@ export default function GetTodos({ id }) {
     const [display, setDisplay] = useState(true)
 
     function toggleTodos() {
-        return false ? true : false
+        setDisplay(!display)
     }
+
 
 
     return (
@@ -78,7 +79,7 @@ export default function GetTodos({ id }) {
                         todos && todos.filter(todo => todo.finished === false).map(activeTodo => (
                             <>
                                 <ListedTodos id={activeTodo._id} todo={activeTodo.text} date={activeTodo.createdAt} onDelete={handleOnDelete} onToggle={toggleStatus} status={activeTodo.finished ? true : false} />
-                                {/*  <p>Todo status: {todo.finished ? 'Finished' : 'Not finished'}</p> */}
+
                             </>
                         ))
                     ) : (
@@ -99,7 +100,7 @@ export default function GetTodos({ id }) {
                 </div>
             )}
             <br />
-            <div className='d-flex justify-content-center'><button className="btn btn-outline-primary" onClick={() => setDisplay(!display)}>Toggle shown todos</button></div>
+            <div className='d-grid gap-2 col-6 mx-auto'><button className="btn btn-outline-primary" onClick={() => setDisplay(!display)}>{display ? 'Show completed todos' : 'Show active todos'}</button></div>
         </div >
     )
 }
