@@ -1,17 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import PostTodos from './PostTodos'
-import { AiOutlineDelete } from "react-icons/ai";
-import { BsFillXSquareFill } from "react-icons/bs"
-import { format } from 'date-fns'
 import ListedTodos from './ListedTodos';
-import { useNavigate, useParams } from 'react-router-dom';
+
 
 
 export default function GetTodos({ id }) {
     const [todos, setTodos] = useState('')
-    const [status, setStatus] = useState(true)
 
-    const navigate = useNavigate()
 
     useEffect(() => {
         fetchData()
@@ -32,7 +26,6 @@ export default function GetTodos({ id }) {
     }
 
     function handleOnDelete(id) {
-        //e.preventDefault()
         console.log('testing delete', id)
         const url = `http://localhost:5050/dashboard/${id}`
         const headers = {
@@ -63,12 +56,6 @@ export default function GetTodos({ id }) {
     }
 
     const [display, setDisplay] = useState(true)
-
-    function toggleTodos() {
-        setDisplay(!display)
-    }
-
-
 
     return (
         <div>

@@ -1,6 +1,5 @@
 import React from 'react'
 import { BsFillXSquareFill } from "react-icons/bs";
-import { BsFillCheckSquareFill } from "react-icons/bs";
 
 export default function ListedTodos({ id, todo, date, onDelete, onToggle, status }) {
 

@@ -9,7 +9,6 @@ import Dashboard from "./views/Dashboard";
 function App() {
   return (
     <div className="App">
-      <h1>Hello React</h1>
       <Routes>
         <Route path="/" element={<StartPage/>} />
         <Route path="/register" element={<RegisterPage/>} />

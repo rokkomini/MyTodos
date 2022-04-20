@@ -10,7 +10,7 @@ const { User } = require("../models/User");
 const getTodo = asyncHandler(async (req, res) => {
   const todoEntries = await Todo.find({ user: req.user.id })
     .populate("user")
-    .sort({ date: -1 });
+    .sort({ createdAt: -1 });
   res.status(200).json(todoEntries);
 
   //res.json({ message: "Get todos" });
