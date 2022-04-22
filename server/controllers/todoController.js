@@ -2,6 +2,10 @@ const asyncHandler = require("express-async-handler");
 const { protect } = require("../middleware/authMiddleware");
 const { Todo } = require("../models/Todos");
 const { User } = require("../models/User");
+const multer = require('multer')
+const path = require('path')
+const fs = require('fs');
+const { title } = require("process");
 
 // @route GET api/todo
 // @description get all todo
@@ -21,11 +25,12 @@ const getTodo = asyncHandler(async (req, res) => {
 // @access restricted
 
 const postTodo = asyncHandler(async (req, res) => {
-  const { text } = req.body;
+  const { text, title } = req.body;
   const user = req.user.id;
   console.log("user:", user);
   let todo = new Todo({
     user: user,
+    title: title,
     text: text,
     finished: false,
   });
@@ -43,6 +48,14 @@ const postTodo = asyncHandler(async (req, res) => {
 
   //res.json({ message: "Get todos" });
 });
+// @route POST api/todo
+// @description add files to todo
+// @access restricted
+
+const uploadFiles = asyncHandler(async (req, res) => {
+
+})
+
 
 // @route PUT /dashboard/:todoId
 // @description update todo
@@ -85,7 +98,7 @@ const updateTodo = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Todo" });
 });
 
-// @route DELETE api/todo
+// @route DELETE /todo
 // @description delete a todo
 // @access restricted
 const deleteTodo = asyncHandler(async (req, res) => {
@@ -109,4 +122,29 @@ const deleteTodo = asyncHandler(async (req, res) => {
   res.status(200).json({ id: req.params.id });
 });
 
-module.exports = { postTodo, getTodo, updateTodo, deleteTodo };
+// @route GET /todo/:todoId
+// @description get detailtodo todo
+// @access restricted
+
+const getDetailedTodo = asyncHandler(async (req, res) => {
+  const todo = await Todo.findById(req.params.id);
+
+  if (!todo) {
+    res.status(401);
+    throw new Error("Todo not found");
+  }
+  if (!req.user) {
+    res.status(401);
+    throw new Error("User not found");
+  }
+
+  if (todo.user.toString() !== req.user.id) {
+    res.status(401);
+    throw new Error("User not authorized");
+  }
+
+  res.status(200).json(todo);
+
+});
+
+module.exports = { postTodo, getTodo, uploadFiles, updateTodo, deleteTodo, getDetailedTodo };

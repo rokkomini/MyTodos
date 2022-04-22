@@ -64,27 +64,21 @@ export default function GetTodos({ id }) {
                     {todos.length > 0 ? (
                         todos && todos.filter(todo => todo.finished === false).map(activeTodo => (
                             <>
-                                <h3>Unfinished todos</h3>
                                 <ListedTodos id={activeTodo._id} todo={activeTodo.text} date={activeTodo.createdAt} onDelete={handleOnDelete} onToggle={toggleStatus} status={activeTodo.finished ? true : false} />
-
                             </>
                         ))
-                    ) : (
-                        <p>No todos to show</p>
-                    )}
-                </div>) : (
+                    ) : (<p>No todos to show</p>)}
+                </div>
+            ) : (
                 <div>
-
-                    {todos.finished === true ? (
-                    todos && todos.filter(todo => todo.finished === true).map(activeTodo => (
-                        
+                    {todos.length > 0 ? (
+                        todos && todos.filter(todo => todo.finished === true).map(activeTodo => (
                             <>
-                                <h3>Finished Todos</h3>
                                 <ListedTodos id={activeTodo._id} todo={activeTodo.text} date={activeTodo.createdAt} onDelete={handleOnDelete} onToggle={toggleStatus} status={activeTodo.finished ? true : false} />
-                            </>                        
+                            </>
                         ))
                     ) : (<p>No finished todos to show</p>)
-                }
+                    }
                 </div>
             )}
             <br />

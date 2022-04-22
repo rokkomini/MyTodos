@@ -3,7 +3,9 @@ import React, { useState } from 'react'
 export default function PostTodos() {
     const [todo, setTodo] = useState({
         user: '',
+        title: '',
         text: '',
+        files: [],
         finished: false,
     })
     const API_URL = 'http://localhost:5050/dashboard/'
@@ -36,15 +38,24 @@ export default function PostTodos() {
 
     return (
         <div>
-
             <h2>What do you need to do?</h2>
             <form >
+                <div className="form-group">
+                    <input name='title' type="text" class="form-control" placeholder="Todo Title" id="inputDefault" onChange={(e) => updateTodo({ title: e.target.value })} />
+                </div>
+                <br />
                 <div className="input-group">
                     <textarea name='text' id='text' className="form-control" aria-label="With textarea" placeholder='Write your todo' onChange={(e) => updateTodo({ text: e.target.value })}></textarea>
-                    <button onClick={postTodo} className="btn btn-outline-primary">Add todo</button>
                 </div>
+                <br />
+                <form action="/dashboard" encType='multipart/form-data' method='POST'>
+                    <div class="form-group">
+                        <input name='multiple-files' className="form-control" type="file" multiple id="formFile" onChange={(e) => updateTodo({ files: e.target.files })} />
+                    </div>
+                </form>
+                <br />
+                <div className='d-grid gap-2 col-6 mx-auto'><button className="btn btn-outline-primary" onClick={postTodo}>Add todo</button></div>
             </form>
-
         </div>
     )
 }
