@@ -59,36 +59,30 @@ export default function GetTodos({ id }) {
 
     return (
         <div>
-            {display ? (
-                <div>
-                    {todos.length > 0 ? (
-                        todos && todos.filter(todo => todo.finished === false).map(activeTodo => (
-                            <>
-                                <h3>Unfinished todos</h3>
-                                <ListedTodos id={activeTodo._id} todo={activeTodo.text} date={activeTodo.createdAt} onDelete={handleOnDelete} onToggle={toggleStatus} status={activeTodo.finished ? true : false} />
-
-                            </>
-                        ))
-                    ) : (
-                        <p>No todos to show</p>
-                    )}
-                </div>) : (
-                <div>
-
-                    {todos.finished === true ? (
+        {display ? (
+            <div>
+                {todos.length > 0 ? (
+                    todos && todos.filter(todo => todo.finished === false).map(activeTodo => (
+                        <>
+                            <ListedTodos id={activeTodo._id} todo={activeTodo.text} date={activeTodo.createdAt} onDelete={handleOnDelete} onToggle={toggleStatus} status={activeTodo.finished ? true : false} />
+                        </>
+                    ))
+                ) : (<p>No todos to show</p>)}
+            </div>
+        ) : (
+            <div>
+                {todos.length > 0 ? (
                     todos && todos.filter(todo => todo.finished === true).map(activeTodo => (
-                        
-                            <>
-                                <h3>Finished Todos</h3>
-                                <ListedTodos id={activeTodo._id} todo={activeTodo.text} date={activeTodo.createdAt} onDelete={handleOnDelete} onToggle={toggleStatus} status={activeTodo.finished ? true : false} />
-                            </>                        
-                        ))
-                    ) : (<p>No finished todos to show</p>)
+                        <>
+                            <ListedTodos id={activeTodo._id} todo={activeTodo.text} date={activeTodo.createdAt} onDelete={handleOnDelete} onToggle={toggleStatus} status={activeTodo.finished ? true : false} />
+                        </>
+                    ))
+                ) : (<p>No finished todos to show</p>)
                 }
-                </div>
-            )}
-            <br />
-            <div className='d-grid gap-2 col-6 mx-auto'><button className="btn btn-outline-primary" onClick={() => setDisplay(!display)}>{display ? 'Show completed todos' : 'Show active todos'}</button></div>
-        </div >
+            </div>
+        )}
+        <br />
+        <div className='d-grid gap-2 col-6 mx-auto'><button className="btn btn-outline-primary" onClick={() => setDisplay(!display)}>{display ? 'Show completed todos' : 'Show active todos'}</button></div>
+    </div >
     )
 }
