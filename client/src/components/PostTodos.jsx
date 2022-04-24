@@ -6,23 +6,29 @@ export default function PostTodos(props) {
         user: '',
         title: '',
         text: '',
-        attachments: [''],
+        attachments: [{}],
         finished: false,
     })
-    const [todoTitle, setTodoTitle] = useState('')
-    const [todoText, setTodoText] = useState('')
-    const [todoAttachments, Attachments] = useState('')
+  /*   const [selectedFiles, setSelectedFiles] = useState('')
+    const [isSelected, setIsSelected] = useState(false)
+
+    function handleAttachments(e) {
+        setSelectedFiles(e.target.files)
+        setIsSelected(true)
+    };
+
+     */
 
     function updateForm(value) {
         return setTodo((prev) => {
-          return { ...prev, ...value }
+            return { ...prev, ...value }
         })
-      }
+    }
 
     const API_URL = 'http://localhost:5050/dashboard/'
 
     async function postTodo() {
-        const newTodo = {...todo}
+        const newTodo = { ...todo }
         console.log('todo', newTodo)
 
         await fetch(API_URL, {
@@ -42,7 +48,7 @@ export default function PostTodos(props) {
             user: '',
             title: '',
             text: '',
-            attachments: [''],
+            attachments: '',
             finished: false,
         })
     }
@@ -57,7 +63,7 @@ export default function PostTodos(props) {
     return (
         <div>
             <h2>What do you need to do?</h2>
-            <form encType='multipart/form-data' method='post' onSubmit={handleOnSubmit}>
+            <form encType='multipart/form-data' method='post' action='/dashboard/uploads' onSubmit={handleOnSubmit} >
                 <div className="input-group">
                     <input name='title' id='title' type="text" className="form-control" placeholder="Todo Title" value={todo.title} onChange={(e) => updateForm({ title: e.target.value })} />
                 </div>
@@ -68,11 +74,11 @@ export default function PostTodos(props) {
                 <br />
 
                 <div className="input-group">
-                    <input name='attachments' id='attachments' className="form-control" type="file" value={todo.attachments} onChange={(e) => updateForm({ files: e.target.attachments[0] })} multiple />
+                    <input name='attachments' id='attachments' className="form-control" type="file" onChange={(e) => updateForm({ attachments: e.target.files })} multiple />
                 </div>
 
                 <br />
-                <div className='d-grid gap-2 col-6 mx-auto'><input className="btn btn-outline-primary" type='submit' value={'Add todo'}/></div>
+                <div className='d-grid gap-2 col-6 mx-auto'><input className="btn btn-outline-primary" type='submit' value={'Add todo'} /></div>
             </form>
         </div>
     )

@@ -5,6 +5,7 @@ const { title } = require("process");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
+const { uploadMiddleware } = require("../middleware/uploadMiddleware");
 
 // @route GET api/todo
 // @description get all todo
@@ -21,13 +22,24 @@ const getTodo = asyncHandler(async (req, res) => {
 // @description create a todo
 // @access restricted
 
+ var Storage = multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, "./uploads");
+  },
+  filename: function (req, file, callback) {
+    callback(null, file.originalname + "-" + Date.now);
+  },
+});
+const upload = multer({ storage: Storage })
+
+
 const postTodo = asyncHandler(async (req, res) => {
   const { title, text } = req.body;
   const user = req.user.id;
   let todo = new Todo({
     user: user,
     title: title,
-    text: text,
+    text: text, 
     finished: false,
   });
   await todo
@@ -46,15 +58,17 @@ const postTodo = asyncHandler(async (req, res) => {
 // @description add files to todo
 // @access restricted
 
-// const uploadAttachments = upload.array("attachments");
+/*  const uploadAttachments = async (req, res) => {
+   await uploadMiddleware (req, res)
+   console.log(req.files)
+ } */
 
 // @route PUT /dashboard/:todoId
 // @description update todo
 // @access restricted
 const updateTodo = asyncHandler(async (req, res) => {
   const todo = await Todo.findById(req.params.id);
-  console.log("update todo", todo);
-
+  
   if (!todo) {
     res.status(400);
     throw new Error("Todo not found");

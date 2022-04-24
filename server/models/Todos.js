@@ -7,6 +7,7 @@ const todoSchema = new mongoose.Schema(
     text: { type: String },
     attachments: [{ String }],
     finished: { type: Boolean },
+    date: {type: Date, default: Date.now} 
   },
   { timestamps: true },
   {
