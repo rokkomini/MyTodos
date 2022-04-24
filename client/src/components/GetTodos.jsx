@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ListedTodos from './ListedTodos';
+import PostTodos from './PostTodos';
+import TodoHeader from './TodoHeader';
 
 
 
@@ -13,20 +15,17 @@ export default function GetTodos({ id }) {
 
     async function fetchData() {
         const API_URL = 'http://localhost:5050/dashboard/'
-        console.log('dashboard', localStorage.getItem('token'))
         fetch(API_URL, {
             method: 'GET',
             headers: { 'x-access-token': localStorage.getItem('token') },
         })
             .then(res => res.json())
             .then(data => {
-                console.log('data', data)
-                return setTodos(data)
+                setTodos(data)
             })
     }
 
     function handleOnDelete(id) {
-        console.log('testing delete', id)
         const url = `http://localhost:5050/dashboard/${id}`
         const headers = {
             'Content-Type': 'application/json',
@@ -41,7 +40,6 @@ export default function GetTodos({ id }) {
     }
 
     function toggleStatus(id) {
-        console.log('testing toggle', id)
         const url = `http://localhost:5050/dashboard/${id}`
         const headers = {
             'Content-Type': 'application/json',
@@ -59,30 +57,35 @@ export default function GetTodos({ id }) {
 
     return (
         <div>
-            {display ? (
-                <div>
-                    {todos.length > 0 ? (
-                        todos && todos.filter(todo => todo.finished === false).map(activeTodo => (
-                            <>
-                                <ListedTodos id={activeTodo._id} todo={activeTodo.text} date={activeTodo.createdAt} onDelete={handleOnDelete} onToggle={toggleStatus} status={activeTodo.finished ? true : false} />
-                            </>
-                        ))
-                    ) : (<p>No todos to show</p>)}
-                </div>
-            ) : (
-                <div>
-                    {todos.length > 0 ? (
-                        todos && todos.filter(todo => todo.finished === true).map(activeTodo => (
-                            <>
-                                <ListedTodos id={activeTodo._id} todo={activeTodo.text} date={activeTodo.createdAt} onDelete={handleOnDelete} onToggle={toggleStatus} status={activeTodo.finished ? true : false} />
-                            </>
-                        ))
-                    ) : (<p>No finished todos to show</p>)
-                    }
-                </div>
-            )}
+            <PostTodos onClick={fetchData} />
             <br />
-            <div className='d-grid gap-2 col-6 mx-auto'><button className="btn btn-outline-primary" onClick={() => setDisplay(!display)}>{display ? 'Show completed todos' : 'Show active todos'}</button></div>
+            <div className="container">
+                <TodoHeader />
+                {display ? (
+                    <div>
+                        {todos.length > 0 ? (
+                            todos && todos.filter(todo => todo.finished === false).map(activeTodo => (
+                                <>
+                                    <ListedTodos id={activeTodo._id} todo={activeTodo.text} date={activeTodo.createdAt} onDelete={handleOnDelete} onToggle={toggleStatus} status={activeTodo.finished ? true : false} />
+                                </>
+                            ))
+                        ) : (<p>No todos to show</p>)}
+                    </div>
+                ) : (
+                    <div>
+                        {todos.length > 0 ? (
+                            todos && todos.filter(todo => todo.finished === true).map(activeTodo => (
+                                <>
+                                    <ListedTodos id={activeTodo._id} todo={activeTodo.text} date={activeTodo.createdAt} onDelete={handleOnDelete} onToggle={toggleStatus} status={activeTodo.finished ? true : false} />
+                                </>
+                            ))
+                        ) : (<p>No finished todos to show</p>)
+                        }
+                    </div>
+                )}
+                <br />
+                <div className='d-grid gap-2 col-6 mx-auto'><button className="btn btn-outline-primary" onClick={() => setDisplay(!display)}>{display ? 'Show completed todos' : 'Show active todos'}</button></div>
+            </div>
         </div >
     )
 }

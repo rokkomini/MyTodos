@@ -2,10 +2,10 @@ const asyncHandler = require("express-async-handler");
 const { protect } = require("../middleware/authMiddleware");
 const { Todo } = require("../models/Todos");
 const { User } = require("../models/User");
-const multer = require('multer')
-const path = require('path')
-const fs = require('fs');
 const { title } = require("process");
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
 
 // @route GET api/todo
 // @description get all todo
@@ -16,8 +16,6 @@ const getTodo = asyncHandler(async (req, res) => {
     .populate("user")
     .sort({ createdAt: -1 });
   res.status(200).json(todoEntries);
-
-  //res.json({ message: "Get todos" });
 });
 
 // @route POST api/todo
@@ -45,24 +43,17 @@ const postTodo = asyncHandler(async (req, res) => {
             .json({ message: "Failed to add todo", error: err.message })
         )
     );
-
-  //res.json({ message: "Get todos" });
 });
 // @route POST api/todo
 // @description add files to todo
 // @access restricted
-
-const uploadFiles = asyncHandler(async (req, res) => {
-
-})
-
 
 // @route PUT /dashboard/:todoId
 // @description update todo
 // @access restricted
 const updateTodo = asyncHandler(async (req, res) => {
   const todo = await Todo.findById(req.params.id);
-  console.log('update todo', todo)
+  console.log("update todo", todo);
 
   if (!todo) {
     res.status(400);
@@ -81,17 +72,17 @@ const updateTodo = asyncHandler(async (req, res) => {
     throw new Error("User not authorized");
   }
 
-  if(todo.finished === false) {
+  if (todo.finished === false) {
     await Todo.findByIdAndUpdate(req.params.id, {
-      finished: true
+      finished: true,
     });
   } else {
     await Todo.findByIdAndUpdate(req.params.id, {
-      finished: false
+      finished: false,
     });
   }
 
-/* const updatedTodo = await Todo.findByIdAndUpdate(req.params.id, {
+  /* const updatedTodo = await Todo.findByIdAndUpdate(req.params.id, {
     finished: true
   }); */
 
@@ -144,7 +135,6 @@ const getDetailedTodo = asyncHandler(async (req, res) => {
   }
 
   res.status(200).json(todo);
-
 });
 
-module.exports = { postTodo, getTodo, uploadFiles, updateTodo, deleteTodo, getDetailedTodo };
+module.exports = { postTodo, getTodo, updateTodo, deleteTodo, getDetailedTodo };

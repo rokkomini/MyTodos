@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export default function DetailPage({id}) {
     const [todoDetails, setTodoDetails] = useState('')
+    const navigate = useNavigate()
 
     useEffect(() => {
         fetchData()
-    }, [id])
+        .then(data => data.isLoggedIn ? null : navigate('/') )
+    }, [])
 
     async function fetchData() {
         const API_URL = `http://localhost:5050/dashboard/${id}`

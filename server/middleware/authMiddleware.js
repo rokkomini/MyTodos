@@ -20,7 +20,8 @@ const verifyJWT = asyncHandler(async (req, res, next) => {
   } else {
     res
       .status(401)
-      .json({ message: "Incorrect token", isLoggedIn: false });
+      .json({ message: "Incorrect token", isLoggedIn: false })
+      .redirect('/auth/login/')
   }
 });
 

@@ -5,7 +5,7 @@ const todoSchema = new mongoose.Schema(
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     title: {type: String},
     text: { type: String, required: true },
-    attachments: [String],
+    attachments: [{String}],
     finished: { type: Boolean },
   },
   { timestamps: true },

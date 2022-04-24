@@ -5,6 +5,7 @@ const dotenv = require("dotenv").config();
 
 const cors = require("cors");
 const mongoose = require("mongoose");
+const { errorHandler } = require("./middleware/errorMiddleware.js");
 
 app.use(cors());
 // parse requests of content-type - application/json
@@ -30,6 +31,8 @@ mongoose
     console.error("Connection error", err);
     process.exit();
   });;
+
+  app.use(errorHandler)
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);

@@ -4,8 +4,6 @@ import { Form, Input } from '../components/styles/FormStyle'
 
 import { HiHome } from "react-icons/hi";
 
-
-
 export default function StartPage() {
 
     let navigate = useNavigate()
@@ -31,7 +29,6 @@ export default function StartPage() {
             .then(data => {
                 const token = data.token
                 localStorage.setItem('token', token)
-                console.log('token in startpage', token)
                 navigate('/dashboard')
             })
     }
