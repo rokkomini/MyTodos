@@ -9,21 +9,21 @@ export default function PostTodos(props) {
         attachments: [''],
         finished: false,
     })
+    const [todoTitle, setTodoTitle] = useState('')
+    const [todoText, setTodoText] = useState('')
+    const [todoAttachments, Attachments] = useState('')
 
-    const [error, setError] = useState('')
+    function updateForm(value) {
+        return setTodo((prev) => {
+          return { ...prev, ...value }
+        })
+      }
 
-    const navigate = useNavigate()
     const API_URL = 'http://localhost:5050/dashboard/'
 
-    /*     function updateTodo(value) {
-            return setTodo((prev) => {
-                return { ...prev, ...value }
-            })
-        }
-     */
     async function postTodo() {
-        const newTodo = { ...todo }
-        console.log('todo', todo)
+        const newTodo = {...todo}
+        console.log('todo', newTodo)
 
         await fetch(API_URL, {
             method: 'POST',
@@ -33,8 +33,8 @@ export default function PostTodos(props) {
             },
             body: JSON.stringify(newTodo)
         })
-            .then(res => res.json())
-            .then(navigate('/dashboard'))
+            .then(res => res.json)
+            .then(data => console.log('consol posttodo', data))
     }
 
     function clearInput() {
@@ -57,22 +57,22 @@ export default function PostTodos(props) {
     return (
         <div>
             <h2>What do you need to do?</h2>
-            <form encType='multipart/form-data' method='POST'>
-                <div className="form-group">
-                    <input name='title' type="text" class="form-control" placeholder="Todo Title" id="inputDefault" value={todo.title} onChange={(e) => setTodo({ title: e.target.value })} />
+            <form encType='multipart/form-data' method='post' onSubmit={handleOnSubmit}>
+                <div className="input-group">
+                    <input name='title' id='title' type="text" className="form-control" placeholder="Todo Title" value={todo.title} onChange={(e) => updateForm({ title: e.target.value })} />
                 </div>
                 <br />
                 <div className="input-group">
-                    <textarea name='text' id='text' className="form-control" aria-label="With textarea" placeholder='Write your todo' value={todo.text} onChange={(e) => setTodo({ text: e.target.value })}></textarea>
+                    <textarea name='text' id='text' className="form-control" aria-label="With textarea" placeholder='Write your todo' value={todo.text} onChange={(e) => updateForm({ text: e.target.value })}></textarea>
                 </div>
                 <br />
 
-                <div className="form-group">
-                    <input name='attachments' className="form-control" type="file" id="formFile" value={todo.attachments} onChange={(e) => setTodo({ files: e.target.attachments[0] })} multiple />
+                <div className="input-group">
+                    <input name='attachments' id='attachments' className="form-control" type="file" value={todo.attachments} onChange={(e) => updateForm({ files: e.target.attachments[0] })} multiple />
                 </div>
 
                 <br />
-                <div className='d-grid gap-2 col-6 mx-auto'><button className="btn btn-outline-primary" onClick={handleOnSubmit}>Add todo</button></div>
+                <div className='d-grid gap-2 col-6 mx-auto'><input className="btn btn-outline-primary" type='submit' value={'Add todo'}/></div>
             </form>
         </div>
     )

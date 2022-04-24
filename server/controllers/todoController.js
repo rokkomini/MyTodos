@@ -1,5 +1,4 @@
 const asyncHandler = require("express-async-handler");
-const { protect } = require("../middleware/authMiddleware");
 const { Todo } = require("../models/Todos");
 const { User } = require("../models/User");
 const { title } = require("process");
@@ -23,9 +22,8 @@ const getTodo = asyncHandler(async (req, res) => {
 // @access restricted
 
 const postTodo = asyncHandler(async (req, res) => {
-  const { text, title } = req.body;
+  const { title, text } = req.body;
   const user = req.user.id;
-  console.log("user:", user);
   let todo = new Todo({
     user: user,
     title: title,
@@ -47,6 +45,8 @@ const postTodo = asyncHandler(async (req, res) => {
 // @route POST api/todo
 // @description add files to todo
 // @access restricted
+
+// const uploadAttachments = upload.array("attachments");
 
 // @route PUT /dashboard/:todoId
 // @description update todo
