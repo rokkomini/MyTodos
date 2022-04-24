@@ -131,24 +131,6 @@ const deleteTodo = asyncHandler(async (req, res) => {
 // @description get detailtodo todo
 // @access restricted
 
-const getDetailedTodo = asyncHandler(async (req, res) => {
-  const todo = await Todo.findById(req.params.id);
 
-  if (!todo) {
-    res.status(401);
-    throw new Error("Todo not found");
-  }
-  if (!req.user) {
-    res.status(401);
-    throw new Error("User not found");
-  }
 
-  if (todo.user.toString() !== req.user.id) {
-    res.status(401);
-    throw new Error("User not authorized");
-  }
-
-  res.status(200).json(todo);
-});
-
-module.exports = { postTodo, getTodo, updateTodo, deleteTodo, getDetailedTodo };
+module.exports = { postTodo, getTodo, updateTodo, deleteTodo };
