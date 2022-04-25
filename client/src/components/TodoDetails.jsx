@@ -9,7 +9,9 @@ export default function DetailPage({ id }) {
     })
 
     const [text, setText] = useState('')
-    const [toggle, setToggle] = useState(true)
+    const [title, setTitle] = useState('')
+    const [toggleOne, setToggleOne] = useState(true)
+    const [toggleTwo, setToggleTwo] = useState(true)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -46,7 +48,7 @@ export default function DetailPage({ id }) {
         } */
 
     function updateTodo() {
-        const payload = {...todoDetails}
+        const payload = { ...todoDetails, text: text, title: title }
         const url = `http://localhost:5050/dashboard/details/${id}`
         const headers = {
             'Content-Type': 'application/json',
@@ -59,15 +61,28 @@ export default function DetailPage({ id }) {
         })
             .then((res) => res.json())
             .then(data => {
-                setTodoDetails(data) 
+                setTodoDetails(data)
+                setText(data.text)
+                setTitle(data.title)
             })
             .then(data => fetchData(), navigate(`/dashboard/details/${id}`))
     }
-
-    function updateTodoText() {
-            setToggle(true)
+    function keyDownFunctionTitle(event) {
+        if (event.key === 'Enter' || event.key === 'Escape') {
+            setToggleOne(true)
+            event.preventDefault()
             updateTodo()
-       
+
+        }
+    }
+
+    function keyDownFunctionText(event) {
+        if (event.key === 'Enter' || event.key === 'Escape') {
+            setToggleTwo(true)
+            event.preventDefault()
+            updateTodo()
+
+        }
     }
 
     return (
@@ -86,27 +101,35 @@ export default function DetailPage({ id }) {
                 </div>
             </nav>
             <h1>Detailpage</h1>
-            {todoDetails ? (
-                <div className="container p-4">
+
+            <div className="container p-4">
+                {todoDetails ? (
                     <div className="card bg-secondary mb-3">
 
-
-                        <div className="card-header">{todoDetails.title}</div>
-
+                        {toggleOne ? (
+                            <div className="card-header"><h4 onDoubleClick={() => { setToggleOne(false) }}>{todoDetails.title}</h4></div>
+                        ) : (<input className="form-control form-control-lg" name='title' type='text' value={title} placeholder={todoDetails.title} onChange={(e) => setTitle(e.target.value)}
+                            onKeyDown={keyDownFunctionTitle} />)}
                         <div className="card-body">
-                            {toggle ? (
-                                <h4 className="card-title" onDoubleClick={() => { setToggle(false) }}>{todoDetails.text}</h4>
-                            ) : (<input className="form-control" type='text' placeholder={todoDetails.text}  onChange={(e) => setTodoDetails( e.target.value )}
-                                onKeyDown={(event => {
-                                    if (event.key === 'Enter' || event.key === 'Escape') {
-                                         updateTodoText()                          
-                                    }
-                                })} />)}
+                            {toggleTwo ? (
+                                <p className="card-title" onDoubleClick={() => { setToggleTwo(false) }}>{todoDetails.text}</p>
+                            ) : (<input className="form-control" name='text' type='text' value={text} placeholder={todoDetails.text} onChange={(e) => setText(e.target.value)}
+                                onKeyDown={keyDownFunctionText} />)}
                         </div>
                     </div>
-                </div>
+                ) : (<p>Not found</p>)}
 
-            ) : (<p>Not found</p>)}
+
+                <h5>Add attachments</h5>
+                <form encType='multipart/form-data' method='post'>
+                    <div className="input-group">
+                        <input name='attachments' id='attachments' className="form-control" type="file" multiple />
+
+                    </div>
+                    <br />
+                    <div className='d-grid gap-2 col-3 mx-auto'><input className="btn btn-outline-primary" type='submit' value={'Add attachments'} /></div>
+                </form>
+            </div>
         </div>
     )
 }

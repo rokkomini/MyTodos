@@ -28,7 +28,7 @@ const getDetailedTodo = asyncHandler(async (req, res) => {
 
 const updateTodoDetail = asyncHandler(async (req, res) => {
   const todo = await Todo.findById(req.params.id);
-  console.log("updaate todo detail", todo);
+  console.log("update todo detail", todo);
   const { text } = req.body;
 
   if (!todo) {
@@ -48,9 +48,10 @@ const updateTodoDetail = asyncHandler(async (req, res) => {
     throw new Error("User not authorized");
   }
 
-  await Todo.findByIdAndUpdate(req.params.id, {
-    text: text,
-  });
+  const update = {text: req.body.text || undefined, title: req.body.title || undefined}
+  const filter = {_id: todo}
+  const updatedTodo = await Todo.findOneAndUpdate(filter, update, {new: true})
+  await updatedTodo.save()
 
   /* const updatedTodo = await Todo.findByIdAndUpdate(req.params.id, {
       finished: true
