@@ -29,7 +29,6 @@ const getDetailedTodo = asyncHandler(async (req, res) => {
 const updateTodoDetail = asyncHandler(async (req, res) => {
   const todo = await Todo.findById(req.params.id);
   console.log("update todo detail", todo);
-  const { text } = req.body;
 
   if (!todo) {
     res.status(400);
@@ -60,4 +59,38 @@ const updateTodoDetail = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Todo" });
 });
 
-module.exports = { getDetailedTodo, updateTodoDetail };
+const uploadAttachments = asyncHandler(async (req, res) => {
+    const todo = await Todo.findById(req.params.id);
+    console.log("update todo detail", todo);
+    const { attachments } = req.files;
+  
+    if (!todo) {
+      res.status(400);
+      throw new Error("Todo not found");
+    }
+  
+    // Check for user
+    if (!req.user) {
+      res.status(401);
+      throw new Error("User not found");
+    }
+  
+    // Make sure the logged in user matches the goal user
+    if (todo.user.toString() !== req.user.id) {
+      res.status(401);
+      throw new Error("User not authorized");
+    }
+  
+    const update = {text: req.body.files || undefined}
+    const filter = {_id: todo}
+    const updatedTodo = await Todo.findOneAndUpdate(filter, update, {new: true})
+    await updatedTodo.save()
+  
+    /* const updatedTodo = await Todo.findByIdAndUpdate(req.params.id, {
+        finished: true
+      }); */
+  
+    res.status(200).json({ message: "Todo" });
+  });
+
+module.exports = { getDetailedTodo, updateTodoDetail, uploadAttachments };

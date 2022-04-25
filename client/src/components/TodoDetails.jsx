@@ -124,7 +124,6 @@ export default function DetailPage({ id }) {
                 <form encType='multipart/form-data' method='post'>
                     <div className="input-group">
                         <input name='attachments' id='attachments' className="form-control" type="file" multiple />
-
                     </div>
                     <br />
                     <div className='d-grid gap-2 col-3 mx-auto'><input className="btn btn-outline-primary" type='submit' value={'Add attachments'} /></div>
