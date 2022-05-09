@@ -10,6 +10,8 @@ export default function DetailPage({ id }) {
 
     const [text, setText] = useState('')
     const [title, setTitle] = useState('')
+    const [attachments, setAttachments] = useState([])
+    const [attachmentsArray, setAttachmentsarray] = useState(attachments)
     const [toggleOne, setToggleOne] = useState(true)
     const [toggleTwo, setToggleTwo] = useState(true)
     const navigate = useNavigate()
@@ -21,15 +23,13 @@ export default function DetailPage({ id }) {
 
     async function fetchData() {
         const API_URL = `http://localhost:5050/dashboard/details/${id}`
-        console.log('dashboard', localStorage.getItem('token'))
         fetch(API_URL, {
             method: 'GET',
             headers: { 'x-access-token': localStorage.getItem('token') },
         })
             .then(res => res.json())
             .then(data => {
-                console.log('data', data)
-                return setTodoDetails(data)
+                setTodoDetails(data)
             })
     }
     /* 
@@ -72,7 +72,6 @@ export default function DetailPage({ id }) {
             setToggleOne(true)
             event.preventDefault()
             updateTodo()
-
         }
     }
 
@@ -81,8 +80,42 @@ export default function DetailPage({ id }) {
             setToggleTwo(true)
             event.preventDefault()
             updateTodo()
-
         }
+    }
+
+
+  /*   const fileChangeHandler = (e) => {
+        setAttachments(e.target.files)
+    }; */
+
+    function fileChangeHandler(value) {
+        return setAttachments((prev) => {
+            return { ...prev, ...value }
+        })
+    }
+
+
+    function uploadFiles() {
+        const data = new FormData()
+        data.append('attachments', attachments)
+        console.log('frontend uploadfiles', attachments)
+        const url = `http://localhost:5050/upload`
+        /*         const headers = {
+                    'x-access-token': localStorage.getItem('token'),
+                }; */
+        fetch(url, {
+            method: 'PATCH',
+            body: data,
+        })
+            .then(res => console.log('Files sent'))
+            .catch(err => console.log(err.message))
+        /*             .then((res) => res.json())
+                    .then(data => {
+                        setTodoDetails(data)
+                        setAttachments(data.attachments)
+                    })
+        
+                    .then(data => fetchData(data), navigate(`/dashboard/details/${id}`)) */
     }
 
     return (
@@ -108,7 +141,7 @@ export default function DetailPage({ id }) {
 
                         {toggleOne ? (
                             <div className="card-header"><h4 onDoubleClick={() => { setToggleOne(false) }}>{todoDetails.title}</h4></div>
-                        ) : (<input className="form-control form-control-lg" name='title' type='text' value={title} placeholder={todoDetails.title} onChange={(e) => setTitle(e.target.value)}
+                        ) : (<input className="form-control form-control-lg" name='title' type='text' value={title} placeholder={todoDetails.title === undefined ? 'No title added' : todoDetails.title} onChange={(e) => setTitle(e.target.value)}
                             onKeyDown={keyDownFunctionTitle} />)}
                         <div className="card-body">
                             {toggleTwo ? (
@@ -121,9 +154,9 @@ export default function DetailPage({ id }) {
 
 
                 <h5>Add attachments</h5>
-                <form encType='multipart/form-data' method='post'>
+                <form onSubmit={uploadFiles}>
                     <div className="input-group">
-                        <input name='attachments' id='attachments' className="form-control" type="file" multiple />
+                        <input name='attachments' id='attachments' className="form-control" type="file" multiple onChange={fileChangeHandler} />
                     </div>
                     <br />
                     <div className='d-grid gap-2 col-3 mx-auto'><input className="btn btn-outline-primary" type='submit' value={'Add attachments'} /></div>

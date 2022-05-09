@@ -55,11 +55,11 @@ const updateTodoDetail = asyncHandler(async (req, res) => {
   /* const updatedTodo = await Todo.findByIdAndUpdate(req.params.id, {
       finished: true
     }); */
-
+ 
   res.status(200).json({ message: "Todo" });
 });
 
-const uploadAttachments = asyncHandler(async (req, res) => {
+/* const uploadAttachments = asyncHandler(async (req, res) => {
     const todo = await Todo.findById(req.params.id);
     console.log("update todo detail", todo);
     const { attachments } = req.files;
@@ -86,11 +86,11 @@ const uploadAttachments = asyncHandler(async (req, res) => {
     const updatedTodo = await Todo.findOneAndUpdate(filter, update, {new: true})
     await updatedTodo.save()
   
-    /* const updatedTodo = await Todo.findByIdAndUpdate(req.params.id, {
+     const updatedTodo = await Todo.findByIdAndUpdate(req.params.id, {
         finished: true
-      }); */
+      }); 
   
     res.status(200).json({ message: "Todo" });
   });
-
-module.exports = { getDetailedTodo, updateTodoDetail, uploadAttachments };
+*/
+module.exports = { getDetailedTodo, updateTodoDetail };
