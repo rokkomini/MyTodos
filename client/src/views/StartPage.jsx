@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Form, Input } from '../components/styles/FormStyle'
+import { Form, FormDiv, Input } from '../components/styles/FormStyle'
 
 import { HiHome } from "react-icons/hi";
+import { HeaderDiv } from '../components/styles/StartHeader';
+
 
 export default function StartPage() {
 
@@ -46,22 +48,24 @@ export default function StartPage() {
     return (
         <div>
 
-            <h1>Startpage</h1>
-            <h2>Welcome to sign in</h2>
-            <div className="col-md-6 m-auto">
-                <div className="card card-body">
-                    <h1 className="text-center mb-3">
-                        <HiHome /> <br />  Sign in
-                    </h1>
-                    <Form onSubmit={event => handleLogin(event)}>
-                        <Input type="text" placeholder='username' onChange={e => setUsername(e.target.value)} />
-                        <Input type="password" placeholder='password' onChange={e => setPassword(e.target.value)} />
-                        <Input type="submit" value='Sign in' />
-                        <Link to='/register'>Not a member? Click to sign up!</Link>
-                    </Form>
-                </div>
-            </div>
+            <HeaderDiv>
+                <h1>Get sorted - Create your todos</h1>
+            </HeaderDiv>
 
+
+            <FormDiv>
+                <h1 className="text-center mb-3">
+                    <HiHome /> <br />  Sign in
+                </h1>
+
+                <Form onSubmit={event => handleLogin(event)}>
+                    <Input type="text" placeholder='username' onChange={e => setUsername(e.target.value)} />
+                    <Input type="password" placeholder='password' onChange={e => setPassword(e.target.value)} />
+                    <Input type="submit" value='Sign in' />
+                    <Link to='/register'>Not a member? Click to sign up!</Link>
+                </Form>
+            </FormDiv>
         </div>
+
     )
 }
