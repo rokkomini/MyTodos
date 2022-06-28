@@ -12,6 +12,7 @@ export default function RegisterPage() {
     username: '',
     password: ''
   })
+  const [error, setError] = useState([])
 
   function updateForm(value) {
     return setUser((prev) => {
@@ -31,12 +32,19 @@ export default function RegisterPage() {
       body: JSON.stringify(payload),
     })
       .catch(error => {
-        window.alert(error);
+        console.log(error.data);
+        this.setState({
+          loadingUser: false,
+          error: true,
+        });
         return;
       })
     setUser({ username: '', password: '' })
-    navigate('/')
   }
+
+  /* function errorHandling(username, password) {
+
+  }  */
 
 
   return (
@@ -50,6 +58,7 @@ export default function RegisterPage() {
           <FaUserPlus /> <br />  Create account
         </h1>
         <Form onSubmit={handleRegister}>
+          <div className='error-message'>Error message: {error}</div>
           <Input type="text" placeholder='username' value={user.username} onChange={(e) => updateForm({ username: e.target.value })} />
           <Input type="password" placeholder='password' value={user.password} onChange={(e) => updateForm({ password: e.target.value })} />
           <Input type="submit" value='Create account' />

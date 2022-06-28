@@ -83,11 +83,6 @@ export default function DetailPage({ id }) {
         }
     }
 
-
-  /*   const fileChangeHandler = (e) => {
-        setAttachments(e.target.files)
-    }; */
-
     function fileChangeHandler(value) {
         return setAttachments((prev) => {
             return { ...prev, ...value }
