@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Form, FormDiv, Input } from '../components/styles/FormStyle'
 import { FaUserPlus } from "react-icons/fa";
+import { HeaderDiv } from '../components/styles/StartHeader';
 
 
 export default function RegisterPage() {
@@ -11,6 +12,7 @@ export default function RegisterPage() {
     username: '',
     password: ''
   })
+  const [error, setError] = useState([])
 
   function updateForm(value) {
     return setUser((prev) => {
@@ -30,31 +32,41 @@ export default function RegisterPage() {
       body: JSON.stringify(payload),
     })
       .catch(error => {
-        window.alert(error);
+        console.log('error', error);
         return;
       })
+    getErrors()
     setUser({ username: '', password: '' })
-    navigate('/')
   }
+
+   function getErrors() {
+     fetch(API_REGISTER, {
+      method: 'GET',
+    })
+    .then(res => res.json())
+    .then(data => console.log('geterrors', data))
+  }  
 
 
   return (
     <div>
-      <h1>Register page</h1>
-      <h2>Welcome to register a new account!</h2>
-      <div className="col-md-6 m-auto">
-        <div className="card card-body">
-          <h1 className="text-center mb-3">
-            <FaUserPlus /> <br />  Register
-          </h1>
-          <Form onSubmit={handleRegister}>
-            <Input type="text" placeholder='username' value={user.username} onChange={(e) => updateForm({ username: e.target.value })} />
-            <Input type="password" placeholder='password' value={user.password} onChange={(e) => updateForm({ password: e.target.value })} />
-            <Input type="submit" value='Register' />
-            <Link to='/'>Already a member? Click to sign in!</Link>
-          </Form>
-        </div>
-      </div>
+      <HeaderDiv>
+        <h1>Get sorted - Create your todos</h1>
+      </HeaderDiv>
+
+      <FormDiv >
+        <h1 className="text-center mb-3">
+          <FaUserPlus /> <br />  Create account
+        </h1>
+        <Form onSubmit={handleRegister}>
+          <div className='error-message'>Error message: {error}</div>
+          <Input type="text" placeholder='username' value={user.username} onChange={(e) => updateForm({ username: e.target.value })} />
+          <Input type="password" placeholder='password' value={user.password} onChange={(e) => updateForm({ password: e.target.value })} />
+          <Input type="submit" value='Create account' />
+          <Link to='/'>Already a member? Click to sign in!</Link>
+        </Form>
+      </FormDiv>
     </div>
+
   )
 }

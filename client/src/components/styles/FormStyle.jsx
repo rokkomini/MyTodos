@@ -10,13 +10,19 @@ export const Form = styled.form`
   position: relative;
   border-radius: 5px;
   box-shadow: 5px 5px 20px rgb(165, 162, 162);
+  a {
+    text-decoration: none;
+    :hover {
+      color: #fc6f03;
+    }
+  }
 `;
 
 export const Input = styled.input`
   max-width: 100%;
   padding: 11px 13px;
   background: #f9f9fa;
-  color: #90AACB;
+  color: #00000;
   margin-bottom: 0.9rem;
   border-radius: 4px;
   outline: 0;
@@ -31,8 +37,7 @@ export const Input = styled.input`
 `
 
 export const FormDiv = styled.div`
-border: solid black 2px;
-display: flex;
+
 margin: 0 auto;
-padding: 10px;
+padding-top: 50px;
 `

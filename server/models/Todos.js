@@ -3,8 +3,11 @@ const mongoose = require("mongoose");
 const todoSchema = new mongoose.Schema(
   {
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    text: { type: String, required: true },
+    title: { type: String},
+    text: { type: String },
+    attachments: [{ String }],
     finished: { type: Boolean },
+    date: {type: Date, default: Date.now} 
   },
   { timestamps: true },
   {
@@ -15,4 +18,3 @@ const todoSchema = new mongoose.Schema(
 const Todo = mongoose.model("Todo", todoSchema);
 
 exports.Todo = Todo;
-

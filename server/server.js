@@ -1,14 +1,12 @@
 const express = require("express");
 const app = express();
-
 const dotenv = require("dotenv").config();
-
 const cors = require("cors");
 const mongoose = require("mongoose");
+const { errorHandler } = require("./middleware/errorMiddleware.js");
 
 app.use(cors());
 // parse requests of content-type - application/json
-
 app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
@@ -30,6 +28,7 @@ mongoose
     console.error("Connection error", err);
     process.exit();
   });;
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);

@@ -1,7 +1,11 @@
 const asyncHandler = require("express-async-handler");
-const { protect } = require("../middleware/authMiddleware");
 const { Todo } = require("../models/Todos");
 const { User } = require("../models/User");
+const { title } = require("process");
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
+const { uploadMiddleware } = require("../middleware/uploadMiddleware");
 
 // @route GET api/todo
 // @description get all todo
@@ -12,21 +16,30 @@ const getTodo = asyncHandler(async (req, res) => {
     .populate("user")
     .sort({ createdAt: -1 });
   res.status(200).json(todoEntries);
-
-  //res.json({ message: "Get todos" });
 });
 
 // @route POST api/todo
 // @description create a todo
 // @access restricted
 
+ var Storage = multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, "./uploads");
+  },
+  filename: function (req, file, callback) {
+    callback(null, file.originalname + "-" + Date.now);
+  },
+});
+const upload = multer({ storage: Storage })
+
+
 const postTodo = asyncHandler(async (req, res) => {
-  const { text } = req.body;
+  const { title, text } = req.body;
   const user = req.user.id;
-  console.log("user:", user);
   let todo = new Todo({
     user: user,
-    text: text,
+    title: title,
+    text: text, 
     finished: false,
   });
   await todo
@@ -40,17 +53,22 @@ const postTodo = asyncHandler(async (req, res) => {
             .json({ message: "Failed to add todo", error: err.message })
         )
     );
-
-  //res.json({ message: "Get todos" });
 });
+// @route POST api/todo
+// @description add files to todo
+// @access restricted
+
+/*  const uploadAttachments = async (req, res) => {
+   await uploadMiddleware (req, res)
+   console.log(req.files)
+ } */
 
 // @route PUT /dashboard/:todoId
 // @description update todo
 // @access restricted
 const updateTodo = asyncHandler(async (req, res) => {
   const todo = await Todo.findById(req.params.id);
-  console.log('update todo', todo)
-
+  
   if (!todo) {
     res.status(400);
     throw new Error("Todo not found");
@@ -68,24 +86,24 @@ const updateTodo = asyncHandler(async (req, res) => {
     throw new Error("User not authorized");
   }
 
-  if(todo.finished === false) {
+  if (todo.finished === false) {
     await Todo.findByIdAndUpdate(req.params.id, {
-      finished: true
+      finished: true,
     });
   } else {
     await Todo.findByIdAndUpdate(req.params.id, {
-      finished: false
+      finished: false,
     });
   }
 
-/* const updatedTodo = await Todo.findByIdAndUpdate(req.params.id, {
+  /* const updatedTodo = await Todo.findByIdAndUpdate(req.params.id, {
     finished: true
   }); */
 
   res.status(200).json({ message: "Todo" });
 });
 
-// @route DELETE api/todo
+// @route DELETE /todo
 // @description delete a todo
 // @access restricted
 const deleteTodo = asyncHandler(async (req, res) => {
@@ -108,5 +126,11 @@ const deleteTodo = asyncHandler(async (req, res) => {
   await todo.remove();
   res.status(200).json({ id: req.params.id });
 });
+
+// @route GET /todo/:todoId
+// @description get detailtodo todo
+// @access restricted
+
+
 
 module.exports = { postTodo, getTodo, updateTodo, deleteTodo };
