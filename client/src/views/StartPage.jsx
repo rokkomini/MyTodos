@@ -4,6 +4,7 @@ import { Form, FormDiv, Input } from '../components/styles/FormStyle'
 
 import { HiHome } from "react-icons/hi";
 import { HeaderDiv } from '../components/styles/StartHeader';
+import { FaRedRiver } from 'react-icons/fa';
 
 
 export default function StartPage() {
@@ -12,7 +13,9 @@ export default function StartPage() {
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+
     const [error, setError] = useState('')
+    const [redirect, setRedirect] = useState(false)
     const API_LOGIN = 'http://localhost:5050/auth/login/';
 
 
@@ -31,26 +34,35 @@ export default function StartPage() {
             // .then(data => console.log('login message', data))
             .then(data => {
                 const token = data.token
-                setError(data.message)
+                if (data.redirect === true) {
+                    navigate('/dashboard')
+                } else {
+                    setError(data.message)
+                }
                 localStorage.setItem('token', token)
-                navigate('/dashboard')
             })
-
-
-
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        /*    if (redirect === true) {
+               navigate('/dashboard')
+           } else {
+               console.log(error)
+           } */
     }
 
-/*     useEffect(() => {
-        fetch('http://localhost:5050/auth/user', {
-            headers:
-                { 'x-access-token': localStorage.getItem('token') }
-        })
-            .then(res => res.json())
-            // .then(data => console.log('get user', data))
-            .then(data => 
-                data.isLoggedIn ? navigate('/dashboard') : setError(data.message)
-            )
-    }, []) */
+
+    /*     useEffect(() => {
+            fetch('http://localhost:5050/auth/user', {
+                headers:
+                    { 'x-access-token': localStorage.getItem('token') }
+            })
+                .then(res => res.json())
+                // .then(data => console.log('get user', data))
+                .then(data => 
+                    data.isLoggedIn ? navigate('/dashboard') : setError(data.message)
+                )
+        }, []) */
 
     /*  function getUser() {
          fetch('http://localhost:5050/auth/user', {
@@ -77,9 +89,9 @@ export default function StartPage() {
 
 
 
+
                 <Form onSubmit={event => handleLogin(event)}>
                     {error === '' ? '' : error}
-
                     <Input type="text" placeholder='username' onChange={e => setUsername(e.target.value)} />
                     <Input type="password" placeholder='password' onChange={e => setPassword(e.target.value)} />
                     <Input type="submit" value='Sign in' />

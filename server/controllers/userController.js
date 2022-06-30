@@ -71,17 +71,15 @@ const loginUser = asyncHandler(async (req, res) => {
   // Check for username
   const user = await User.login(username, password);
   if (user) {
-    console.log("usercontroller", user);
     const userId = user._id.toString();
-    console.log("usercontroller id", userId);
     const token = jwt.sign(
       { userId, username: user.username },
       process.env.JWT_SECRET,
       { expiresIn: "12h", subject: userId }
     );
-    res.json({ message: "Valid credentials", token: "Bearer " + token });
+    res.json({ message: "Valid credentials", token: "Bearer " + token, redirect: true});
   } else {
-    res.status(400).json({message: 'Invalid credentials'});
+    res.status(400).json({message: 'Invalid credentials', redirect: false});
     throw new Error("Invalid credentials");
   }
 });
