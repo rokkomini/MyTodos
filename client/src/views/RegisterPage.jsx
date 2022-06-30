@@ -32,19 +32,20 @@ export default function RegisterPage() {
       body: JSON.stringify(payload),
     })
       .catch(error => {
-        console.log(error.data);
-        this.setState({
-          loadingUser: false,
-          error: true,
-        });
+        console.log('error', error);
         return;
       })
+    getErrors()
     setUser({ username: '', password: '' })
   }
 
-  /* function errorHandling(username, password) {
-
-  }  */
+   function getErrors() {
+     fetch(API_REGISTER, {
+      method: 'GET',
+    })
+    .then(res => res.json())
+    .then(data => console.log('geterrors', data))
+  }  
 
 
   return (

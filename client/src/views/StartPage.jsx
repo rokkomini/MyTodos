@@ -12,13 +12,13 @@ export default function StartPage() {
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [error, setError] = useState('')
     const API_LOGIN = 'http://localhost:5050/auth/login/';
 
 
     function handleLogin(e) {
         e.preventDefault()
         const payload = { username, password }
-
         fetch(API_LOGIN, {
             method: 'POST',
             headers: {
@@ -28,22 +28,39 @@ export default function StartPage() {
             body: JSON.stringify(payload)
         })
             .then(res => res.json())
+            // .then(data => console.log('login message', data))
             .then(data => {
                 const token = data.token
+                setError(data.message)
                 localStorage.setItem('token', token)
                 navigate('/dashboard')
             })
+
+
+
     }
 
-    useEffect(() => {
+/*     useEffect(() => {
         fetch('http://localhost:5050/auth/user', {
             headers:
                 { 'x-access-token': localStorage.getItem('token') }
         })
             .then(res => res.json())
-            .then(data => console.log(data))
-            .then(data => data.isLoggedIn ? navigate('/dashboard') : null)
-    }, [])
+            // .then(data => console.log('get user', data))
+            .then(data => 
+                data.isLoggedIn ? navigate('/dashboard') : setError(data.message)
+            )
+    }, []) */
+
+    /*  function getUser() {
+         fetch('http://localhost:5050/auth/user', {
+             headers:
+                 { 'x-access-token': localStorage.getItem('token') }
+         })
+             .then(res => res.json())
+             .then(data => console.log('get user', data))
+             .then(data => data.isLoggedIn ? navigate('/dashboard') : console.log(data.message))
+     } */
 
     return (
         <div>
@@ -58,7 +75,11 @@ export default function StartPage() {
                     <HiHome /> <br />  Sign in
                 </h1>
 
+
+
                 <Form onSubmit={event => handleLogin(event)}>
+                    {error === '' ? '' : error}
+
                     <Input type="text" placeholder='username' onChange={e => setUsername(e.target.value)} />
                     <Input type="password" placeholder='password' onChange={e => setPassword(e.target.value)} />
                     <Input type="submit" value='Sign in' />

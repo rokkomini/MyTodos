@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const asyncHandler = require("express-async-handler");
 const { User } = require("../models/User");
-const { protect } = require("../middleware/authMiddleware");
+const { verifyJWT } = require("../middleware/authMiddleware");
 
 // @desc   Register new user
 // @route  POST /auth/register/
@@ -19,7 +19,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   if (password.length < 6) {
-    res.status(400).send("Password must be at least 6 character - json");
+    res.status(400).json({error: 'Password must contain 6 characters or more'});
     errors.push({ msg: "Password must be at least 6 characters - push" });
     throw new Error("Password must be at least 6 characters - throw");
   }
@@ -53,7 +53,7 @@ const registerUser = asyncHandler(async (req, res) => {
             token: generateToken(newUser._id),
           });
         } else {
-          res.status(400).json({ errors });
+          res.status(400).json({ message: 'Inavlid user data' });
           throw new Error("Invalid user data");
         }
       }
@@ -79,9 +79,9 @@ const loginUser = asyncHandler(async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: "12h", subject: userId }
     );
-    res.json({ message: "Success", token: "Bearer " + token });
+    res.json({ message: "Valid credentials", token: "Bearer " + token });
   } else {
-    res.status(400);
+    res.status(400).json({message: 'Invalid credentials'});
     throw new Error("Invalid credentials");
   }
 });
@@ -91,7 +91,7 @@ const loginUser = asyncHandler(async (req, res) => {
 // @access Private
 
 const getUser = async (req, res) => {
-  if (protect) {
+  if (verifyJWT) {
     res.json({ isLoggedIn: true, username: req.user.username });
   }
 };
