@@ -74,7 +74,7 @@ const loginUser = asyncHandler(async (req, res) => {
       redirect: true,
     });
   } else {
-    res.status(400).json({ message: "Invalid credentials", redirect: false });
+    res.status(400).json({ message: "Wrong username or password", redirect: false });
     throw new Error("Invalid credentials");
   }
 });

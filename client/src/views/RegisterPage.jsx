@@ -34,7 +34,7 @@ export default function RegisterPage() {
       .then(res => res.json())
       .then(data => {
         if (data.redirect === true) {
-          navigate('/dashboard')
+          navigate('/')
         } else {
           setErrors(data.errors)
         }
