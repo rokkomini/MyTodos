@@ -12,7 +12,7 @@ export default function RegisterPage() {
     username: '',
     password: ''
   })
-  const [error, setError] = useState([])
+  const [errors, setErrors] = useState([])
 
   function updateForm(value) {
     return setUser((prev) => {
@@ -31,21 +31,19 @@ export default function RegisterPage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     })
+      .then(res => res.json())
+      .then(data => {
+        if (data.redirect === true) {
+          navigate('/dashboard')
+        } else {
+          setErrors(data.errors)
+        }
+      })
       .catch(error => {
         console.log('error', error);
-        return;
       })
-    getErrors()
-    setUser({ username: '', password: '' })
   }
 
-   function getErrors() {
-     fetch(API_REGISTER, {
-      method: 'GET',
-    })
-    .then(res => res.json())
-    .then(data => console.log('geterrors', data))
-  }  
 
 
   return (
@@ -59,7 +57,11 @@ export default function RegisterPage() {
           <FaUserPlus /> <br />  Create account
         </h1>
         <Form onSubmit={handleRegister}>
-          <div className='error-message'>Error message: {error}</div>
+
+          {errors.map(error => <span class="badge bg-warning">{error.msg}</span>
+          )}
+
+          <br />
           <Input type="text" placeholder='username' value={user.username} onChange={(e) => updateForm({ username: e.target.value })} />
           <Input type="password" placeholder='password' value={user.password} onChange={(e) => updateForm({ password: e.target.value })} />
           <Input type="submit" value='Create account' />

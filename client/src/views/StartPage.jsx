@@ -31,7 +31,6 @@ export default function StartPage() {
             body: JSON.stringify(payload)
         })
             .then(res => res.json())
-            // .then(data => console.log('login message', data))
             .then(data => {
                 const token = data.token
                 if (data.redirect === true) {
@@ -44,35 +43,9 @@ export default function StartPage() {
             .catch((error) => {
                 console.error('Error:', error);
             });
-        /*    if (redirect === true) {
-               navigate('/dashboard')
-           } else {
-               console.log(error)
-           } */
     }
 
 
-    /*     useEffect(() => {
-            fetch('http://localhost:5050/auth/user', {
-                headers:
-                    { 'x-access-token': localStorage.getItem('token') }
-            })
-                .then(res => res.json())
-                // .then(data => console.log('get user', data))
-                .then(data => 
-                    data.isLoggedIn ? navigate('/dashboard') : setError(data.message)
-                )
-        }, []) */
-
-    /*  function getUser() {
-         fetch('http://localhost:5050/auth/user', {
-             headers:
-                 { 'x-access-token': localStorage.getItem('token') }
-         })
-             .then(res => res.json())
-             .then(data => console.log('get user', data))
-             .then(data => data.isLoggedIn ? navigate('/dashboard') : console.log(data.message))
-     } */
 
     return (
         <div>
@@ -91,7 +64,8 @@ export default function StartPage() {
 
 
                 <Form onSubmit={event => handleLogin(event)}>
-                    {error === '' ? '' : error}
+                    {error === '' ? '' : <span class="badge bg-warning">{error}</span>}
+                    <br />
                     <Input type="text" placeholder='username' onChange={e => setUsername(e.target.value)} />
                     <Input type="password" placeholder='password' onChange={e => setPassword(e.target.value)} />
                     <Input type="submit" value='Sign in' />

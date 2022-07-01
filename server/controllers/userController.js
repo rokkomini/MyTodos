@@ -13,51 +13,42 @@ const registerUser = asyncHandler(async (req, res) => {
   let errors = [];
 
   if (!username || !password) {
-    res.status(400);
     errors.push({ msg: "Please fill out all fields" });
-    throw new Error("Please fill out all fields");
+    res.status(400);
   }
 
   if (password.length < 6) {
-    res.status(400).json({error: 'Password must contain 6 characters or more'});
-    errors.push({ msg: "Password must be at least 6 characters - push" });
-    throw new Error("Password must be at least 6 characters - throw");
+    errors.push({ msg: "Password must be at least 6 characters" });
+    res
+      .status(400)
+    
   }
 
   //Check if user exists
 
-  /*  const userExist = await User.findOne({ username });
+  const userExist = await User.findOne({ username });
 
   if (userExist) {
-    res.status(400);
-    errors.push({msg: 'Please choose a different username'})
-    throw new Error("User already exists");
+    errors.push({ msg: "Please choose a different username" });
+    res.status(400)
   }
- */
+
   if (errors.length > 0) {
     res.status(400).json({ errors });
-    throw new Error("Invalid user data");
   } else {
-    User.findOne({ username }).then((user) => {
-      if (user) {
-        res.status(400).json({ msg: "Choose different username - json" });
-        errors.push({ msg: "Please choose a different username - push" });
-        throw Error("User already exists - throw");
-      } else {
-        const newUser = new User({ username, password });
-        newUser.save();
-        if (newUser) {
-          res.status(201).json({
-            _id: newUser.id,
-            username: newUser.username,
-            token: generateToken(newUser._id),
-          });
-        } else {
-          res.status(400).json({ message: 'Inavlid user data' });
-          throw new Error("Invalid user data");
-        }
-      }
-    });
+    const newUser = new User({ username, password });
+    newUser.save();
+    if (newUser) {
+      res.status(201).json({
+        _id: newUser.id,
+        username: newUser.username,
+        token: generateToken(newUser._id),
+        redirect: true,
+      });
+    } else {
+      res.status(400).json({ message: "Invalid user data" });
+      throw new Error("Invalid user data");
+    }
   }
 });
 
@@ -77,9 +68,13 @@ const loginUser = asyncHandler(async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: "12h", subject: userId }
     );
-    res.json({ message: "Valid credentials", token: "Bearer " + token, redirect: true});
+    res.json({
+      message: "Valid credentials",
+      token: "Bearer " + token,
+      redirect: true,
+    });
   } else {
-    res.status(400).json({message: 'Invalid credentials', redirect: false});
+    res.status(400).json({ message: "Invalid credentials", redirect: false });
     throw new Error("Invalid credentials");
   }
 });
