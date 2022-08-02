@@ -1,9 +1,9 @@
 # Website built for handling todos
 ## Backend 
 - express
-- mongoDB,
+- mongoDB
   
-## frontend 
+## Frontend 
 - react
   - styled components
   
@@ -14,3 +14,10 @@
 
 ## Client
 - `npm start`
+
+
+### WIP
+- Modal/pop-up when registered new account
+- Loading screen when logging in/out
+- Refining input when changing a todo
+- Uploading images
