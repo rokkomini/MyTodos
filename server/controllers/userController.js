@@ -44,6 +44,7 @@ const registerUser = asyncHandler(async (req, res) => {
         username: newUser.username,
         token: generateToken(newUser._id),
         redirect: true,
+        success: true,
       });
     } else {
       res.status(400).json({ message: "Invalid user data" });

@@ -12,6 +12,8 @@ export default function RegisterPage() {
     username: '',
     password: ''
   })
+
+  const [success, setSuccess] = useState(false)
   const [errors, setErrors] = useState([])
 
   function updateForm(value) {
@@ -34,7 +36,8 @@ export default function RegisterPage() {
       .then(res => res.json())
       .then(data => {
         if (data.redirect === true) {
-          navigate('/')
+          alert('You have successfully registered an account')
+          setSuccess(data.success)
         } else {
           setErrors(data.errors)
         }
@@ -56,9 +59,10 @@ export default function RegisterPage() {
         <h1 className="text-center mb-3">
           <FaUserPlus /> <br />  Create account
         </h1>
+        {success ? <p>Registration successful</p> : 
         <Form onSubmit={handleRegister}>
 
-          {errors.map(error => <span class="badge bg-warning">{error.msg}</span>
+          {errors.map(error => <span class="badge bg-warning">{error.msg} <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></span>
           )}
 
           <br />
@@ -67,6 +71,7 @@ export default function RegisterPage() {
           <Input type="submit" value='Create account' />
           <Link to='/'>Already a member? Click to sign in!</Link>
         </Form>
+        }
       </FormDiv>
     </div>
 

@@ -4,7 +4,11 @@ import { Form, FormDiv, Input } from '../components/styles/FormStyle'
 
 import { HiHome } from "react-icons/hi";
 import { HeaderDiv } from '../components/styles/StartHeader';
-import { FaRedRiver } from 'react-icons/fa';
+//import { FaRedRiver } from 'react-icons/fa';
+//import LoadingSpinner from '../components/LoadingSpinner';
+import LoginForm from '../components/LoginForm';
+import LoadingSpinner from '../components/LoadingSpinner';
+import LoginHeader from '../components/styles/LoginHeader';
 
 
 export default function StartPage() {
@@ -15,12 +19,14 @@ export default function StartPage() {
     const [password, setPassword] = useState('')
 
     const [error, setError] = useState('')
-    const [redirect, setRedirect] = useState(false)
+    //const [redirect, setRedirect] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const API_LOGIN = 'http://localhost:5050/auth/login/';
 
 
     function handleLogin(e) {
         e.preventDefault()
+        setIsLoading(true)
         const payload = { username, password }
         fetch(API_LOGIN, {
             method: 'POST',
@@ -33,14 +39,20 @@ export default function StartPage() {
             .then(res => res.json())
             .then(data => {
                 const token = data.token
-                if (data.redirect === true) {
-                    navigate('/dashboard')
+                if (data.success === true || data.redirect === true) {
+                    setTimeout(() => {
+                        navigate('/dashboard')
+                        setIsLoading(false)
+                    }, 3000)
+
                 } else {
+                    setIsLoading(false)
                     setError(data.message)
                 }
                 localStorage.setItem('token', token)
             })
             .catch((error) => {
+                setIsLoading(false)
                 console.error('Error:', error);
             });
     }
@@ -56,21 +68,23 @@ export default function StartPage() {
 
 
             <FormDiv>
-                <h1 className="text-center mb-3">
-                    <HiHome /> <br />  Sign in
-                </h1>
 
 
+                {/* <LoginForm handleLogin={handleLogin} error={error} setUsername={setUsername} setPassword={setPassword} isLoading={isLoading}/> */}
 
-
-                <Form onSubmit={event => handleLogin(event)}>
-                    {error === '' ? '' : <span class="badge bg-warning">{error}</span>}
-                    <br />
-                    <Input type="text" placeholder='username' onChange={e => setUsername(e.target.value)} />
-                    <Input type="password" placeholder='password' onChange={e => setPassword(e.target.value)} />
-                    <Input type="submit" value='Sign in' />
-                    <Link to='/register'>Not a member? Click to sign up!</Link>
-                </Form>
+                {isLoading ? <LoadingSpinner /> :
+                    <div>
+                        <LoginHeader header='Log in'/>
+                        <Form onSubmit={event => handleLogin(event)}>
+                            {error === '' ? '' : <span class="badge bg-warning">{error}</span>}
+                            <br />
+                            <Input type="text" placeholder='username' onChange={e => setUsername(e.target.value)} />
+                            <Input type="password" placeholder='password' onChange={e => setPassword(e.target.value)} />
+                            <Input type="submit" value='Sign in' disabled={isLoading} />
+                            <Link to='/register' disabled={isLoading}>Not a member? Click to sign up!</Link>
+                        </Form>
+                    </div>
+                }
             </FormDiv>
         </div>
 
