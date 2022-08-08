@@ -57,32 +57,16 @@ export default function StartPage() {
             });
     }
 
-
-
     return (
         <div>
-
             <HeaderDiv>
                 <h1>Get sorted - Create your todos</h1>
             </HeaderDiv>
-
-
             <FormDiv>
-
-
-                {/* <LoginForm handleLogin={handleLogin} error={error} setUsername={setUsername} setPassword={setPassword} isLoading={isLoading}/> */}
-
-                {isLoading ? <LoadingSpinner /> :
+                {isLoading ? <LoadingSpinner header='Logging you in' /> :
                     <div>
-                        <LoginHeader header='Log in'/>
-                        <Form onSubmit={event => handleLogin(event)}>
-                            {error === '' ? '' : <span class="badge bg-warning">{error}</span>}
-                            <br />
-                            <Input type="text" placeholder='username' onChange={e => setUsername(e.target.value)} />
-                            <Input type="password" placeholder='password' onChange={e => setPassword(e.target.value)} />
-                            <Input type="submit" value='Sign in' disabled={isLoading} />
-                            <Link to='/register' disabled={isLoading}>Not a member? Click to sign up!</Link>
-                        </Form>
+                        <LoginHeader header='Log in' />
+                        <LoginForm handleLogin={handleLogin} error={error} setUsername={setUsername} setPassword={setPassword} isLoading={isLoading} />
                     </div>
                 }
             </FormDiv>
