@@ -19,9 +19,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   if (password.length < 6) {
     errors.push({ msg: "Password must be at least 6 characters" });
-    res
-      .status(400)
-    
+    res.status(400);
   }
 
   //Check if user exists
@@ -30,7 +28,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   if (userExist) {
     errors.push({ msg: "Please choose a different username" });
-    res.status(400)
+    res.status(400);
   }
 
   if (errors.length > 0) {
@@ -72,10 +70,12 @@ const loginUser = asyncHandler(async (req, res) => {
     res.json({
       message: "Valid credentials",
       token: "Bearer " + token,
-      redirect: true,
+      success: true,
     });
   } else {
-    res.status(400).json({ message: "Wrong username or password", redirect: false });
+    res
+      .status(400)
+      .json({ message: "Wrong username or password", success: false });
     throw new Error("Invalid credentials");
   }
 });

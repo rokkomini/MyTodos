@@ -6,7 +6,7 @@ import { HiHome } from "react-icons/hi";
 import { HeaderDiv } from '../components/styles/StartHeader';
 //import { FaRedRiver } from 'react-icons/fa';
 //import LoadingSpinner from '../components/LoadingSpinner';
-import LoginForm from '../components/LoginForm';
+import SubmitForm from '../components/SubmitForm';
 import LoadingSpinner from '../components/LoadingSpinner';
 import LoginHeader from '../components/styles/LoginHeader';
 
@@ -32,7 +32,6 @@ export default function StartPage() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-
             },
             body: JSON.stringify(payload)
         })
@@ -66,7 +65,15 @@ export default function StartPage() {
                 {isLoading ? <LoadingSpinner header='Logging you in' /> :
                     <div>
                         <LoginHeader header='Log in' />
-                        <LoginForm handleLogin={handleLogin} error={error} setUsername={setUsername} setPassword={setPassword} isLoading={isLoading} />
+                        <SubmitForm 
+                        onSubmit={handleLogin} 
+                        error={error === '' ? '' : <span class="badge bg-warning">{error}</span>}
+                        setUsername={setUsername} 
+                        setPassword={setPassword} 
+                        isLoading={isLoading} 
+                        button='Log in' 
+                        link='/register' 
+                        linkMsg='Not a member? Click to sign up!'/>
                     </div>
                 }
             </FormDiv>

@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Form, FormDiv, Input } from '../components/styles/FormStyle'
 import { FaUserPlus } from "react-icons/fa";
 import { HeaderDiv } from '../components/styles/StartHeader';
+import SubmitForm from '../components/SubmitForm';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 
 export default function RegisterPage() {
@@ -13,7 +15,10 @@ export default function RegisterPage() {
     password: ''
   })
 
-  const [success, setSuccess] = useState(false)
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+
+  const [isLoading, setIsLoading] = useState(false)
   const [errors, setErrors] = useState([])
 
   function updateForm(value) {
@@ -23,23 +28,26 @@ export default function RegisterPage() {
   }
 
   const API_REGISTER = 'http://localhost:5050/auth/register/';
-  async function handleRegister(e) {
+  function handleRegister(e) {
     e.preventDefault()
 
     const payload = { ...user }
-
-    await fetch(API_REGISTER, {
+    fetch(API_REGISTER, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     })
       .then(res => res.json())
       .then(data => {
-        if (data.redirect === true) {
-          alert('You have successfully registered an account')
-          setSuccess(data.success)
+        if (data.success === true || data.redirect === true) {
+          setIsLoading(true)
+          setTimeout(() => {
+            navigate('/')
+            setIsLoading(false)
+          }, 3000)
         } else {
           setErrors(data.errors)
+          console.log('errors', data.errors)
         }
       })
       .catch(error => {
@@ -59,18 +67,30 @@ export default function RegisterPage() {
         <h1 className="text-center mb-3">
           <FaUserPlus /> <br />  Create account
         </h1>
-        {success ? <p>Registration successful</p> : 
-        <Form onSubmit={handleRegister}>
+        {isLoading ? <LoadingSpinner header='Creating your account' /> :
+          /*    <SubmitForm
+               onSubmit={handleRegister}
+               errors={errors === [] ? '' : errors.map(error => <span class="badge bg-warning">{error.msg} </span>)}
+               setUsername={setUsername}
+               setPassword={setPassword}
+               isLoading={isLoading}
+               button='Sign up'
+               link='/'
+               linkMsg='Already a member? Click to log in!' 
+               
+         
+               /> */
+          <Form onSubmit={handleRegister}>
 
-          {errors.map(error => <span class="badge bg-warning">{error.msg} <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></span>
-          )}
+            {errors.map(error => <span class="badge bg-warning">{error.msg} </span>
+            )}
 
-          <br />
-          <Input type="text" placeholder='username' value={user.username} onChange={(e) => updateForm({ username: e.target.value })} />
-          <Input type="password" placeholder='password' value={user.password} onChange={(e) => updateForm({ password: e.target.value })} />
-          <Input type="submit" value='Create account' />
-          <Link to='/'>Already a member? Click to sign in!</Link>
-        </Form>
+            <br />
+            <Input type="text" placeholder='username' value={user.username} onChange={(e) => updateForm({ username: e.target.value })} />
+            <Input type="password" placeholder='password' value={user.password} onChange={(e) => updateForm({ password: e.target.value })} />
+            <Input type="submit" value='Create account' />
+            <Link to='/'>Already a member? Click to sign in!</Link>
+          </Form>
         }
       </FormDiv>
     </div>
