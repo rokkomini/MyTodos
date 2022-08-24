@@ -1,5 +1,14 @@
 {
   "dependencies": {
+    "dotenv": "^16.0.1",
     "moment-timezone": "^0.5.34"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cd server && node server.js",
+    "build": "cd client && npm install && npm run build"
+  },
+  "engines": {
+    "node": "v16.14.0"
   }
 }

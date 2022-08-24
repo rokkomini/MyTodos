@@ -148,14 +148,14 @@ export default function DetailPage({ id }) {
                 ) : (<p>Not found</p>)}
 
 
-                <h5>Add attachments</h5>
+             {/*    <h5>Add attachments</h5>
                 <form onSubmit={uploadFiles}>
                     <div className="input-group">
                         <input name='attachments' id='attachments' className="form-control" type="file" multiple onChange={fileChangeHandler} />
                     </div>
                     <br />
                     <div className='d-grid gap-2 col-3 mx-auto'><input className="btn btn-outline-primary" type='submit' value={'Add attachments'} /></div>
-                </form>
+                </form> */}
             </div>
         </div>
     )

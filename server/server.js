@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const path = require('path')
 const dotenv = require("dotenv").config();
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -19,7 +20,7 @@ app.use("/auth", require("./routes/auth.js"));
 // set port, listen for requests
 const PORT = process.env.PORT || 5050;
 const MONGODB_URI = process.env.MONGODB_URI;
-const MONGO_LOCAL = "mongodb://127.0.0.1/backend2"
+//const MONGO_LOCAL = "mongodb://127.0.0.1/backend2"
 
 mongoose
 .connect(MONGODB_URI)
@@ -31,6 +32,9 @@ mongoose
     process.exit();
   });;
 
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+  });
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
