@@ -18,9 +18,11 @@ app.use("/auth", require("./routes/auth.js"));
 
 // set port, listen for requests
 const PORT = process.env.PORT || 5050;
+const MONGODB_URI = process.env.MONGODB_URI;
+const MONGO_LOCAL = "mongodb://127.0.0.1/backend2"
 
 mongoose
-.connect("mongodb://127.0.0.1/backend2")
+.connect(MONGODB_URI)
 .then(() => {
     console.log("Successfully connect to MongoDB.");   ;
   })

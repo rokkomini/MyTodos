@@ -1,10 +1,8 @@
 import GetTodos from '../components/GetTodos'
 import GetUser from '../components/GetUser'
-import PostTodos from '../components/PostTodos'
 import { useParams } from 'react-router-dom'
 import { Footer } from '../components/styles/Footer'
-import TodoHeader from '../components/TodoHeader'
-import { useEffect, useState } from 'react'
+
 
 
 export default function Dashboard() {

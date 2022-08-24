@@ -73,9 +73,9 @@ export default function PostTodos(props) {
                 </div>
                 <br />
 
-                <div className="input-group">
+{/*                 <div className="input-group">
                     <input name='attachments' id='attachments' className="form-control" type="file" onChange={(e) => updateForm({ attachments: e.target.files })} multiple />
-                </div>
+                </div> */}
 
                 <br />
                 <div className='d-grid gap-2 col-6 mx-auto'><input className="btn btn-outline-primary" type='submit' value={'Add todo'} /></div>

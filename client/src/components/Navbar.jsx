@@ -1,10 +1,7 @@
 import React from 'react'
 
 export default function navbar({ username }) {
-
-    
-
-    function handleLogout() {
+      function handleLogout() {
         localStorage.removeItem('token')
         
     }

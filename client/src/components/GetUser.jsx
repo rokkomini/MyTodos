@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Navbar from '../components/styles/Navbar'
+import Navbar from '../components/Navbar'
 
 
 export default function GetUser() {
@@ -11,7 +11,7 @@ export default function GetUser() {
         fetch('http://localhost:5050/auth/user', {
             method: 'GET',
             headers:
-                { 'x-access-token': localStorage.getItem('token')}
+                { 'x-access-token': localStorage.getItem('token') }
         })
             .then(res => res.json())
             .then(data => data.isLoggedIn ? setUser(data) : navigate('/'))
@@ -24,7 +24,7 @@ export default function GetUser() {
                 <Navbar username={user.username} />
             )}
             {!user && (
-                <Navbar username={'Unknown user'}/>
+                <Navbar username={'Unknown user'} />
             )}
 
         </div>
