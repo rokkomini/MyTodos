@@ -6,6 +6,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const { errorHandler } = require("./middleware/errorMiddleware.js");
 
+app.use(express.static(path.resolve(__dirname, '../client/build')));
 app.use(cors());
 // parse requests of content-type - application/json
 app.use(express.json());
