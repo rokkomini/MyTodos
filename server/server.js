@@ -4,7 +4,8 @@ const path = require('path')
 const dotenv = require("dotenv").config();
 const cors = require("cors");
 const mongoose = require("mongoose");
-const { errorHandler } = require("./middleware/errorMiddleware.js");
+
+
 
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 app.use(cors());
@@ -33,9 +34,9 @@ mongoose
     process.exit();
   });;
 
-  app.get('*', (req, res) => {
+/*   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
-  });
+  }); */
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);

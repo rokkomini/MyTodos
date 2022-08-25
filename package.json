@@ -1,14 +1,30 @@
 {
   "dependencies": {
     "dotenv": "^16.0.1",
+    "express": "^4.18.1",
     "moment-timezone": "^0.5.34"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cd server && node server.js",
-    "build": "cd client && npm install && npm run build"
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "engines": {
     "node": "v16.14.0"
-  }
+  },
+  "name": "mytodos",
+  "description": "- express\r - mongoDB",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rokkomini/MyTodos.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rokkomini/MyTodos/issues"
+  },
+  "homepage": "https://github.com/rokkomini/MyTodos#readme"
 }
