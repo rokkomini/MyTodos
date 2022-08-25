@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "body-parser": "^1.20.0",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "moment-timezone": "^0.5.34"
@@ -15,8 +16,7 @@
   "name": "mytodos",
   "description": "- express\r - mongoDB",
   "version": "1.0.0",
-  "main": "index.js",
-  "devDependencies": {},
+  "main": "server.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rokkomini/MyTodos.git"
