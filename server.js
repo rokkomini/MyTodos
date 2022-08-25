@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 
 
 
-app.use(express.static(path.resolve(__dirname, '../client/build')));
+app.use(express.static(path.resolve(__dirname, './client/build')));
 app.use(cors());
 // parse requests of content-type - application/json
 app.use(express.json());
