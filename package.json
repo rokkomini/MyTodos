@@ -1,30 +1,26 @@
 {
-  "dependencies": {
-    "body-parser": "^1.20.0",
-    "dotenv": "^16.0.1",
-    "express": "^4.18.1",
-    "moment-timezone": "^0.5.34"
-  },
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cd server && node server.js",
+    "start": "node server.js",
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
-  "engines": {
-    "node": "v16.14.0"
-  },
-  "name": "mytodos",
-  "description": "- express\r - mongoDB",
-  "version": "1.0.0",
-  "main": "server.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/rokkomini/MyTodos.git"
-  },
+  "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/rokkomini/MyTodos/issues"
-  },
-  "homepage": "https://github.com/rokkomini/MyTodos#readme"
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "express-async-handler": "^1.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.2.9",
+    "multer": "^1.4.4",
+    "node-localstorage": "^2.2.1",
+    "nodemon": "^2.0.16"
+  }
 }
