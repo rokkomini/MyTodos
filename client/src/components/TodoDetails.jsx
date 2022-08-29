@@ -21,7 +21,7 @@ export default function DetailPage({ id }) {
     }, [])
 
     async function fetchData() {
-        const API_URL = `http://localhost:5050/dashboard/details/${id}`
+        const API_URL = `http://localhost:5050/api/dashboard/details/${id}`
         fetch(API_URL, {
             method: 'GET',
             headers: { 'x-access-token': localStorage.getItem('token') },
@@ -48,7 +48,7 @@ export default function DetailPage({ id }) {
 
     function updateTodo() {
         const payload = { ...todoDetails, text: text, title: title }
-        const url = `http://localhost:5050/dashboard/details/${id}`
+        const url = `http://localhost:5050/api/dashboard/details/${id}`
         const headers = {
             'Content-Type': 'application/json',
             'x-access-token': localStorage.getItem('token'),

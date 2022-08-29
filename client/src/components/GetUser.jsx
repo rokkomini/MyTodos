@@ -8,7 +8,7 @@ export default function GetUser() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        fetch('http://localhost:5050/auth/user', {
+        fetch('http://localhost:5050/api/auth/user', {
             method: 'GET',
             headers:
                 { 'x-access-token': localStorage.getItem('token') }

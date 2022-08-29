@@ -14,13 +14,20 @@ app.use(express.urlencoded({ extended: true }));
 // simple route
 
 //Routes
-app.use(express.static(path.join(__dirname, 'build')));
-app.use("/", require("./routes/todo.js"));
-app.use("/auth", require("./routes/auth.js"));
+/* app.use(express.static(path.join(__dirname, 'build'))); */
+app.use("/api/", require("./routes/todo.js"));
+app.use("/api/auth", require("./routes/auth.js"));
 
-app.get('/', (req, res) => {
+/* app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
+}); */
+
+if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
+  app.use(express.static('client/build'));
+  app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/client/build/index.html'));
+  });
+ }
 
 // set port, listen for requests
 const PORT = process.env.PORT || 5050;

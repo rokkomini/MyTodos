@@ -40,7 +40,7 @@ export default function GetTodos({ id }) {
     }
 
     function toggleStatus(id) {
-        const url = `http://localhost:5050/dashboard/${id}`
+        const url = `http://localhost:5050/api/dashboard/${id}`
         const headers = {
             'Content-Type': 'application/json',
             'x-access-token': localStorage.getItem('token'),

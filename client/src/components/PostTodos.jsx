@@ -24,7 +24,7 @@ export default function PostTodos(props) {
         })
     }
 
-    const API_URL = 'http://localhost:5050/dashboard/'
+    const API_URL = 'http://localhost:5050/api/dashboard/'
 
     async function postTodo() {
         const newTodo = { ...todo }
