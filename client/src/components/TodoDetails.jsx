@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Input } from './styles/FormStyle'
+
 
 export default function DetailPage({ id }) {
     const [todoDetails, setTodoDetails] = useState({
@@ -11,7 +11,6 @@ export default function DetailPage({ id }) {
     const [text, setText] = useState('')
     const [title, setTitle] = useState('')
     const [attachments, setAttachments] = useState([])
-    const [attachmentsArray, setAttachmentsarray] = useState(attachments)
     const [toggleOne, setToggleOne] = useState(true)
     const [toggleTwo, setToggleTwo] = useState(true)
     const navigate = useNavigate()

@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Form, FormDiv, Input } from '../components/styles/FormStyle'
 import { FaUserPlus } from "react-icons/fa";
 import { HeaderDiv } from '../components/styles/StartHeader';
-import SubmitForm from '../components/SubmitForm';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 

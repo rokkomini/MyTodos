@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { Form, FormDiv, Input } from '../components/styles/FormStyle'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { FormDiv } from '../components/styles/FormStyle'
 
-import { HiHome } from "react-icons/hi";
+
 import { HeaderDiv } from '../components/styles/StartHeader';
 //import { FaRedRiver } from 'react-icons/fa';
 //import LoadingSpinner from '../components/LoadingSpinner';
@@ -65,15 +65,15 @@ export default function StartPage() {
                 {isLoading ? <LoadingSpinner header='Logging you in' /> :
                     <div>
                         <LoginHeader header='Log in' />
-                        <SubmitForm 
-                        onSubmit={handleLogin} 
-                        error={error === '' ? '' : <span class="badge bg-warning">{error}</span>}
-                        setUsername={setUsername} 
-                        setPassword={setPassword} 
-                        isLoading={isLoading} 
-                        button='Log in' 
-                        link='/register' 
-                        linkMsg='Not a member? Click to sign up!'/>
+                        <SubmitForm
+                            onSubmit={handleLogin}
+                            error={error === '' ? '' : <span class="badge bg-warning">{error}</span>}
+                            setUsername={setUsername}
+                            setPassword={setPassword}
+                            isLoading={isLoading}
+                            button='Log in'
+                            link='/register'
+                            linkMsg='Not a member? Click to sign up!' />
                     </div>
                 }
             </FormDiv>

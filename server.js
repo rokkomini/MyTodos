@@ -6,8 +6,6 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 
 
-
-
 app.use(cors());
 // parse requests of content-type - application/json
 app.use(express.json());
@@ -15,14 +13,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // simple route
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, './client/public', 'index.html'));
-});
-
 //Routes
-app.use(express.static(path.join(__dirname, './client/public', 'index.html')));
+app.use(express.static(path.join(__dirname, 'build')));
 app.use("/", require("./routes/todo.js"));
 app.use("/auth", require("./routes/auth.js"));
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 // set port, listen for requests
 const PORT = process.env.PORT || 5050;
