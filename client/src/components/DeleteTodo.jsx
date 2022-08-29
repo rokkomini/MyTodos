@@ -11,7 +11,7 @@ export default function DeleteTodo(id) {
     }, [])
 
     function fetchData() {
-        const API_URL = 'http://localhost:5050/api/dashboard/'
+        const API_URL = 'http://localhost:5050/dashboard/'
         console.log('dashboard', localStorage.getItem('token'))
         fetch(API_URL, {
             method: 'GET',

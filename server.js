@@ -15,8 +15,8 @@ app.use(express.urlencoded({ extended: true }));
 
 //Routes
 /* app.use(express.static(path.join(__dirname, 'build'))); */
-app.use("/api/", require("./routes/todo.js"));
-app.use("/api/auth", require("./routes/auth.js"));
+app.use("/", require("./routes/todo.js"));
+app.use("/auth", require("./routes/auth.js"));
 
 /* app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
