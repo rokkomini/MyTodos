@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 
 
 
-app.use(express.static(path.resolve(__dirname, './client/build')));
+
 app.use(cors());
 // parse requests of content-type - application/json
 app.use(express.json());
@@ -15,7 +15,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // simple route
 
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, './client/public', 'index.html'));
+});
+
 //Routes
+app.use(express.static(path.join(__dirname, './client/public', 'index.html')));
 app.use("/", require("./routes/todo.js"));
 app.use("/auth", require("./routes/auth.js"));
 
@@ -34,9 +39,7 @@ mongoose
     process.exit();
   });;
 
-/*   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
-  }); */
+  
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
