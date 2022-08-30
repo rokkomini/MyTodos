@@ -3,7 +3,8 @@ const asyncHandler = require("express-async-handler");
 const { User } = require("../models/User");
 
 const verifyJWT = asyncHandler(async (req, res, next) => {
-  const token = req.headers["x-access-token"]?.split(" ")[1];
+  const token = req.headers["x-access-token"].split(" ")[1];
+  console.log('token', token)
   if (token) {
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
       if (err)
