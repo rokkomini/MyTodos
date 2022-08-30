@@ -1,10 +1,8 @@
 import React from 'react'
 
-export default function navbar({ username }) {
-      function handleLogout() {
-        localStorage.removeItem('token')
-        
-    }
+export default function navbar({ username, Onclick }) {
+   
+    
     return (
         <div>
             <nav className="navbar navbar-dark bg-primary">
@@ -13,7 +11,7 @@ export default function navbar({ username }) {
                     <form className="d-flex" >
                         <ul className="navbar-nav me-auto">
                             <li >
-                                <a className="nav-link" onClick={handleLogout} href='/'>Logout
+                                <a className="nav-link" onClick={Onclick} href='/'>Logout
                                 </a>
                             </li>
                         </ul>

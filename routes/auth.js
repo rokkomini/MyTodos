@@ -12,7 +12,7 @@ const { verifyJWT } = require("../middleware/authMiddleware");
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 
-router.get("/user", verifyJWT, (req, res) => {
+router.get("/user", verifyJWT, getUser, (req, res) => {
   res.json({ isLoggedIn: true, username: req.user.username });
 });
 

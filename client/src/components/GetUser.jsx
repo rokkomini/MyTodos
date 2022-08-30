@@ -17,11 +17,15 @@ export default function GetUser() {
             .then(data => data.isLoggedIn ? setUser(data) : navigate('/'))
     }, [])
 
+    function handleLogout() {
+        localStorage.removeItem('token') 
+    }    
+
 
     return (
         <div>
             {user && (
-                <Navbar username={user.username} />
+                <Navbar username={user.username} Onclick={handleLogout}/>
             )}
             {!user && (
                 <Navbar username={'Unknown user'} />

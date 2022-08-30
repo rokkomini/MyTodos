@@ -14,7 +14,6 @@ const verifyJWT = asyncHandler(async (req, res, next) => {
       req.user = {};
       req.user.id = decoded.userId;
       req.user.username = decoded.username;
-    
       next();
     });
   } else {

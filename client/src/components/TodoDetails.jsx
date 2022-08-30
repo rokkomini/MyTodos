@@ -67,11 +67,10 @@ export default function DetailPage({ id }) {
             updateTodo()
         }
     }
-
-    function fileChangeHandler(value) {
+     function fileChangeHandler(value) {
         return setAttachments((prev) => {
             return { ...prev, ...value }
-        })
+        }) 
     }
 
 
