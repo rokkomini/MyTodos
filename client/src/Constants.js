@@ -1,5 +1,5 @@
 const production = {
-    url: 'https://get-sorted.herokuapp.com/'
+    url: 'https://get-sorted.herokuapp.com'
   };
   const development = {
     url: 'http://localhost:5050'
