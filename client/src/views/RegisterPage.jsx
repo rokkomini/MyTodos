@@ -4,7 +4,7 @@ import { Form, FormDiv, Input } from '../components/styles/FormStyle'
 import { FaUserPlus } from "react-icons/fa";
 import { HeaderDiv } from '../components/styles/StartHeader';
 import LoadingSpinner from '../components/LoadingSpinner';
-
+import { config } from '../Constants';
 
 export default function RegisterPage() {
   let navigate = useNavigate()
@@ -13,6 +13,8 @@ export default function RegisterPage() {
     username: '',
     password: ''
   })
+
+  const API_URL = config.url
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -26,7 +28,7 @@ export default function RegisterPage() {
     })
   }
 
-  const API_REGISTER = 'http://localhost:5050/auth/register/';
+  const API_REGISTER = `${API_URL}/auth/register/`;
   function handleRegister(e) {
     e.preventDefault()
 
