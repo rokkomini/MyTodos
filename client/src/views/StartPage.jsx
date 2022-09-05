@@ -21,14 +21,14 @@ export default function StartPage() {
     const [error, setError] = useState('')
     //const [redirect, setRedirect] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
-    const URL_LOGIN = '/auth/login/';
+    
     const API_URL = config.url
 
     function handleLogin(e) {
         e.preventDefault()
         setIsLoading(true)
         const payload = { username, password }
-        fetch(API_URL+URL_LOGIN, {
+        fetch(`${API_URL}/auth/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

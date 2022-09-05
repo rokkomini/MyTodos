@@ -14,8 +14,7 @@ export default function GetTodos({ id }) {
     }, [id])
 
     async function fetchData() {
-        const API_URL = `${API_URL}/dashboard/`
-        fetch(API_URL, {
+        fetch(`${API_URL}/dashboard`, {
             method: 'GET',
             headers: { 'x-access-token': localStorage.getItem('token') },
         })

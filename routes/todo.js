@@ -30,9 +30,9 @@ var upload = multer({ storage: Storage });
 router.use(express.static(__dirname + "/public"));
 router.use("/uploads", express.static("uploads"));
 
-router.get("/dashboard/", verifyJWT, getTodo);
+router.get("/dashboard", verifyJWT, getTodo);
 
-router.post("/dashboard/", verifyJWT, postTodo);
+router.post("/dashboard", verifyJWT, postTodo);
 
 router.patch("/dashboard/:id", verifyJWT, updateTodo);
 

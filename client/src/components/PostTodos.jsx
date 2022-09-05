@@ -31,7 +31,7 @@ export default function PostTodos(props) {
         const newTodo = { ...todo }
         console.log('todo', newTodo)
 
-        await fetch(`${API_URL}/dashboard/`, {
+        await fetch(`${API_URL}/dashboard`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

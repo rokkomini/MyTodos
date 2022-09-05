@@ -28,7 +28,7 @@ export default function RegisterPage() {
     })
   }
 
-  const API_REGISTER = `${API_URL}/auth/register/`;
+  const API_REGISTER = `${API_URL}/auth/register`;
   function handleRegister(e) {
     e.preventDefault()
 
