@@ -60,6 +60,7 @@ export default function StartPage() {
         <div>
             <HeaderDiv>
                 <h1>Get sorted - Create your todos</h1>
+                {console.log('Running in', process.env.NODE_ENV)}
             </HeaderDiv>
             <FormDiv>
                 {isLoading ? <LoadingSpinner header='Logging you in' /> :

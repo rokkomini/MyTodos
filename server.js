@@ -5,7 +5,6 @@ const dotenv = require("dotenv").config();
 const cors = require("cors");
 const mongoose = require("mongoose");
 
-
 app.use(cors());
 // parse requests of content-type - application/json
 app.use(express.json());
@@ -14,13 +13,9 @@ app.use(express.urlencoded({ extended: true }));
 // simple route
 
 //Routes
-/* app.use(express.static(path.join(__dirname, 'build'))); */
+
 app.use("/", require("./routes/todo.js"));
 app.use("/auth", require("./routes/auth.js"));
-
-/* app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-}); */
 
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
   app.use(express.static('client/build'));
@@ -32,7 +27,6 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging')
 // set port, listen for requests
 const PORT = process.env.PORT || 5050;
 const MONGODB_URI = process.env.MONGODB_URI;
-//const MONGO_LOCAL = "mongodb://127.0.0.1/backend2"
 
 mongoose
 .connect(MONGODB_URI)
