@@ -21,7 +21,7 @@ export default function StartPage() {
     const [error, setError] = useState('')
     //const [redirect, setRedirect] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
-    const API_LOGIN = 'http://localhost:5050/auth/login/';
+    const API_LOGIN = '/auth/login/';
 
 
     function handleLogin(e) {
