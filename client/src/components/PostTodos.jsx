@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-
+import { config
+ } from '../Constants'
 export default function PostTodos(props) {
     const [todo, setTodo] = useState({
         user: '',
@@ -18,19 +19,19 @@ export default function PostTodos(props) {
 
      */
 
+    const API_URL = config.url
+
     function updateForm(value) {
         return setTodo((prev) => {
             return { ...prev, ...value }
         })
     }
 
-    const API_URL = 'http://localhost:5050/dashboard/'
-
     async function postTodo() {
         const newTodo = { ...todo }
         console.log('todo', newTodo)
 
-        await fetch(API_URL, {
+        await fetch(`${API_URL}/dashboard/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

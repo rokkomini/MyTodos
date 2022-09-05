@@ -2,19 +2,19 @@ import React, { useEffect, useState } from 'react'
 import ListedTodos from './ListedTodos';
 import PostTodos from './PostTodos';
 import TodoHeader from './TodoHeader';
-
+import { config } from '../Constants';
 
 
 export default function GetTodos({ id }) {
     const [todos, setTodos] = useState('')
-
+    const API_URL = config.url
 
     useEffect(() => {
         fetchData()
     }, [id])
 
     async function fetchData() {
-        const API_URL = 'http://localhost:5050/dashboard/'
+        const API_URL = `${API_URL}/dashboard/`
         fetch(API_URL, {
             method: 'GET',
             headers: { 'x-access-token': localStorage.getItem('token') },
@@ -26,7 +26,7 @@ export default function GetTodos({ id }) {
     }
 
     function handleOnDelete(id) {
-        const url = `http://localhost:5050/dashboard/${id}`
+        const url = `${API_URL}/dashboard/${id}`
         const headers = {
             'Content-Type': 'application/json',
             'x-access-token': localStorage.getItem('token'),
@@ -40,7 +40,7 @@ export default function GetTodos({ id }) {
     }
 
     function toggleStatus(id) {
-        const url = `http://localhost:5050/api/dashboard/${id}`
+        const url = `${API_URL}/dashboard/${id}`
         const headers = {
             'Content-Type': 'application/json',
             'x-access-token': localStorage.getItem('token'),

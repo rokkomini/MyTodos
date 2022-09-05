@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FormDiv } from '../components/styles/FormStyle'
-
+import { config } from '../Constants'
 
 import { HeaderDiv } from '../components/styles/StartHeader';
 //import { FaRedRiver } from 'react-icons/fa';
@@ -21,14 +21,14 @@ export default function StartPage() {
     const [error, setError] = useState('')
     //const [redirect, setRedirect] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
-    const API_LOGIN = '/auth/login/';
-
+    const URL_LOGIN = '/auth/login/';
+    const API_URL = config.url
 
     function handleLogin(e) {
         e.preventDefault()
         setIsLoading(true)
         const payload = { username, password }
-        fetch(API_LOGIN, {
+        fetch(API_URL+URL_LOGIN, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
