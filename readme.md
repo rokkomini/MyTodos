@@ -1,23 +1,25 @@
 # Website built for handling todos
 ## Backend 
 - express
-- mongoDB
+- mongoDB atlas
   
 ## Frontend 
 - react
   - styled components
+  - Bootstrap/bootswatch
   
 ## How to start application
-### Server
-- Start connection to mongoDb through docker
+`npm run dev` to start client and server concurrently
+alternatively:
+## Server
 - `node server.js`
 
 ## Client
-- `npm start`
+- `cd client && npm start`
 
 
 ### WIP
 - Modal/pop-up when registered new account
-- Loading screen when logging in/out
+- Loading screen when out 
 - Refining input when changing a todo
 - Uploading images
