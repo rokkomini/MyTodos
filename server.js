@@ -25,7 +25,7 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging')
  }
 
 // set port, listen for requests
-const PORT = process.env.PORT || 5050;
+const PORT = process.env.PORT || 5000;
 const MONGODB_URI = process.env.MONGODB_URI;
 
 mongoose

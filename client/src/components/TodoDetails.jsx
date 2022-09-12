@@ -22,8 +22,7 @@ export default function DetailPage({ id }) {
     }, [])
 
     async function fetchData() {
-        const API_URL = `${API_URL}/dashboard/details/${id}`
-        fetch(API_URL, {
+        fetch(`${API_URL}/dashboard/details/${id}`, {
             method: 'GET',
             headers: { 'x-access-token': localStorage.getItem('token') },
         })
@@ -68,10 +67,10 @@ export default function DetailPage({ id }) {
             updateTodo()
         }
     }
-     function fileChangeHandler(value) {
+    function fileChangeHandler(value) {
         return setAttachments((prev) => {
             return { ...prev, ...value }
-        }) 
+        })
     }
 
 
@@ -133,7 +132,7 @@ export default function DetailPage({ id }) {
                 ) : (<p>Not found</p>)}
 
 
-             {/*    <h5>Add attachments</h5>
+                {/*    <h5>Add attachments</h5>
                 <form onSubmit={uploadFiles}>
                     <div className="input-group">
                         <input name='attachments' id='attachments' className="form-control" type="file" multiple onChange={fileChangeHandler} />
