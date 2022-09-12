@@ -9,6 +9,7 @@ export default function DetailPage() {
     <div>
         <TodoDetails id={params.id}/>
         <Footer />
+        
     </div>
   )
 }

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { config } from '../Constants'
+import Navbar from '../components/Navbar'
+import { ButtonDiv } from './styles/Layout'
 
 export default function DetailPage({ id }) {
     const [todoDetails, setTodoDetails] = useState({
@@ -18,7 +20,6 @@ export default function DetailPage({ id }) {
 
     useEffect(() => {
         fetchData()
-            .then(data => data.isLoggedIn ? null : navigate('/'))
     }, [])
 
     async function fetchData() {
@@ -26,10 +27,16 @@ export default function DetailPage({ id }) {
             method: 'GET',
             headers: { 'x-access-token': localStorage.getItem('token') },
         })
-            .then(res => res.json())
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                }
+                navigate('/')
+            })
             .then(data => {
                 setTodoDetails(data)
             })
+            .catch(error => console.log(error))
     }
 
     function updateTodo() {
@@ -97,11 +104,15 @@ export default function DetailPage({ id }) {
                     .then(data => fetchData(data), navigate(`/dashboard/details/${id}`)) */
     }
 
+    function handleLogout() {
+        localStorage.removeItem('token')
+    }
+
     return (
         <div>
-            <nav className="navbar navbar-dark bg-primary">
+            {/*             <nav className="navbar navbar-dark bg-primary">
                 <div className="container-fluid">
-                    <h1 className="navbar-brand">Update</h1>
+                    <h1 className="navbar-brand">Update your todo</h1>
                     <form className="d-flex">
                         <ul className="navbar-nav me-auto">
                             <li >
@@ -111,8 +122,10 @@ export default function DetailPage({ id }) {
                         </ul>
                     </form>
                 </div>
-            </nav>
-            <h1>Detailpage</h1>
+            </nav> */}
+
+            <Navbar header={'Update the todo'} Onclick={handleLogout} link={'/'} linkName={'Log out'} />
+            <br />
 
             <div className="container p-4">
                 {todoDetails ? (
@@ -128,8 +141,15 @@ export default function DetailPage({ id }) {
                             ) : (<input className="form-control" name='text' type='text' value={text} placeholder={todoDetails.text} onChange={(e) => setText(e.target.value)}
                                 onKeyDown={keyDownFunctionText} />)}
                         </div>
+
                     </div>
                 ) : (<p>Not found</p>)}
+
+                <ButtonDiv>
+                    <div>
+                        <a href="/dashboard"><button className="btn btn-lg btn-primary" type="button">Back to dashboard</button></a>
+                    </div>
+                </ButtonDiv>
 
 
                 {/*    <h5>Add attachments</h5>
@@ -141,6 +161,7 @@ export default function DetailPage({ id }) {
                     <div className='d-grid gap-2 col-3 mx-auto'><input className="btn btn-outline-primary" type='submit' value={'Add attachments'} /></div>
                 </form> */}
             </div>
+
         </div>
     )
 }

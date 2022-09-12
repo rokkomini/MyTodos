@@ -26,7 +26,7 @@ export default function GetUser() {
     return (
         <div>
             {user && (
-                <Navbar username={user.username} Onclick={handleLogout}/>
+                <Navbar header={`Welcome to ${user.username}'s dashboard`} Onclick={handleLogout} link={'/'} linkName={'Log out'}/>
             )}
             {!user && (
                 <Navbar username={'Unknown user'} />
